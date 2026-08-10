@@ -4,15 +4,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Alex Ellis</title>
-  <meta
-    name="description"
-    content="The professional site of Alex Ellis, a linguistics student, writer, designer, and media contributor."
-  >
+
+  <!-- Apply the theme before the page is painted -->
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("theme");
+
+      const systemPrefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      const startingTheme =
+        savedTheme || (systemPrefersDark ? "dark" : "light");
+
+      document.documentElement.dataset.theme = startingTheme;
+    })();
+  </script>
 
   <link rel="stylesheet" href="style.css">
-
-  <!-- Loads the JavaScript after the HTML has been parsed -->
   <script src="script.js" defer></script>
 </head>
 
