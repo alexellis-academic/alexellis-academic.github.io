@@ -208,13 +208,6 @@ body {
   padding: 40px 0;
 }
 
-@media (max-width: 600px) {
-  .site {
-    width: calc(100% - 20px);
-    padding-top: 24px;
-  }
-}
-
 .hero {
   max-width: 650px;
   padding: 40px 0 60px;
