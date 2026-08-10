@@ -118,50 +118,5 @@
 
   </main>
 
-  document.addEventListener("DOMContentLoaded", () => {
-  const secretFern = document.getElementById("secret-fern");
-  const targetIntro = document.getElementById("target-intro");
-  const hiddenCitation = document.getElementById("hidden-citation-node");
-  
-  const paragraphInput = document.getElementById("paragraph-input");
-  const submitBtn = document.getElementById("submit-phrase-btn");
-  const lockFeedback = document.getElementById("lock-feedback");
-
-  // DEFINITION: The exact paragraph 
-  const ANSWER_PARAGRAPH = "the medium is the architecture of the mind. we do not consume the signal; the signal consumes us.";
-
-  // STEP 1: Click the fern to warp reality
-  secretFern.addEventListener("click", () => {
-    intro.textContent = "2020s era flaneur";
-    
-    // Give it a subtle glitched style change
-    targetIntro.style.color = "#8b0000"; 
-    targetIntro.style.fontFamily = "monospace";
-    
-    // Reveal the hidden textbook input field in the bibliography
-    hiddenCitation.style.display = "block";
-  });
-
-  // STEP 2: Verify the found paragraph
-  submitBtn.addEventListener("click", () => {
-    // Clean up the user input to match formatting easily
-    const cleanedInput = paragraphInput.value.trim().toLowerCase();
-
-    if (cleanedInput === ANSWER_PARAGRAPH.toLowerCase()) {
-      lockFeedback.style.color = "green";
-      lockFeedback.textContent = "Access granted. Routing to subnet...";
-      
-      // Redirect the user deeper into the bizarre pages after a brief delay
-      setTimeout(() => {
-        window.location.href = "https://yoursite.com"; 
-      }, 1500);
-      
-    } else {
-      // Unsettling failure feedback
-      lockFeedback.style.color = "red";
-      lockFeedback.textContent = "Static detected. Transmission corrupted or incomplete.";
-    }
-  });
-});
 </body>
 </html>
