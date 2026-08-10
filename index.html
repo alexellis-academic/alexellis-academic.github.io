@@ -45,7 +45,7 @@
      <a href="media.html">Media</a>
      <a href="contact.html">Contact</a>
   </div>
-    </div>
+
 
     <div class="nav-controls">
 
@@ -175,29 +175,26 @@ document.addEventListener("DOMContentLoaded", () => {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  submitBtn.addEventListener("click", async () => {
-    // 1. Clean the input: make it lowercase and strip out punctuation/symbols
-    const rawInput = paragraphInput.value.trim().toLowerCase();
-    const sanitizedInput = rawInput.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, ""); 
+submitBtn.addEventListener("click", async () => {
+  const sanitizedInput = normalizeInput(paragraphInput.value);
+  const userGuessHash = await generateSHA256(sanitizedInput);
 
-    // 2. Hash the user's cleaned guess
-    const userGuessHash = await generateSHA256(sanitizedInput);
+  console.log("Normalized input:", JSON.stringify(sanitizedInput));
+  console.log("Generated hash:", userGuessHash);
 
-    // 3. Verify the match
-    if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
-      lockFeedback.style.color = "green";
-      lockFeedback.textContent = "Frequency matched. Connecting to localized signal...";
-      
-      setTimeout(() => {
-        // Redirect them to the next secret webpage in your repository
-        window.location.href = "https://yoursite.com"; 
-      }, 1500);
-      
-    } else {
-      lockFeedback.style.color = "red";
-      lockFeedback.textContent = "Static detected. Phrase verification failed.";
-    }
-  });
+  if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
+    lockFeedback.style.color = "green";
+    lockFeedback.textContent =
+      "Frequency matched. Connecting to localized signal...";
+
+    setTimeout(() => {
+      window.location.href = "next-secret.html";
+    }, 1500);
+  } else {
+    lockFeedback.style.color = "red";
+    lockFeedback.textContent =
+      "Static detected. Phrase verification failed.";
+  }
 });
  </script>
 
