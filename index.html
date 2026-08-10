@@ -78,9 +78,10 @@
       <p class="tagline">
         Communication, Culture, Information Technology and English Linguistics
       </p>
-      <p class="intro">
+      <p id="target-intro" class="intro">
       A comms x linguistics student, writer, designer, and media contributor.
       </p>
+      <span id="secret-fern" aria-hidden="true" style="font-size: 24px; cursor: pointer; user-select: none;">⸙</span>
       
        <!-- The Hidden Puzzle Entry Point -->
     <li id="hidden-citation-node" style="display: none; margin-top: 15px; padding: 10px; border-left: 2px solid #efefef;">
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // STEP 1: Click the fern to warp reality
   secretFern.addEventListener("click", () => {
     // Smoothly swap out the boring academic text for the eerie scholar message
-    intro.textContent = "2020s era flaneur";
+  targetIntro.textContent = "2020s era flaneur";
     
     // Give it a subtle glitched style change
     targetIntro.style.color = "#8b0000"; 
