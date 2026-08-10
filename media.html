@@ -3,7 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Media | Alex Ellis</title>
+
+  <title>Alex Ellis</title>
+
+  <!-- Apply the theme before the page is painted -->
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("theme");
+
+      const systemPrefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      const startingTheme =
+        savedTheme || (systemPrefersDark ? "dark" : "light");
+
+      document.documentElement.dataset.theme = startingTheme;
+    })();
+  </script>
+
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
