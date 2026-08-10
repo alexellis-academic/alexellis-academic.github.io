@@ -54,29 +54,26 @@ body {
 /* ------------------------------
    Navigation
 ------------------------------ */
-
 .top-nav {
   position: sticky;
   top: 0;
   z-index: 1000;
 
   width: 100%;
-  min-height: 48px;
+  max-width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
 
-  padding: 7px 18px;
+  padding: 8px 12px;
 
   background: var(--green-pale);
   border-bottom: 1px solid var(--green-light);
   box-shadow: 0 2px 8px rgba(48, 79, 51, 0.08);
 
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease;
+  overflow: hidden;
 }
 
 .nav-links {
