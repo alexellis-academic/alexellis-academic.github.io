@@ -15,6 +15,20 @@
   color-scheme: light;
 }
 
+body,
+.work-item,
+h1,
+h2,
+h3,
+p,
+footer,
+.email-link {
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
 html[data-theme="dark"] {
   --text: #e2ebe2;
   --heading: #f0f6ef;
@@ -273,4 +287,5 @@ footer a {
   .hero {
     padding-top: 24px;
   }
+ 
 }
