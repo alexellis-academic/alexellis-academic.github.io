@@ -105,15 +105,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const paragraphInput = document.getElementById("paragraph-input");
   const submitBtn = document.getElementById("submit-phrase-btn");
   const lockFeedback = document.getElementById("lock-feedback");
-
-  const ENCRYPTED_QUOTE_HASH = "1bb1ac9a5508f4bfa8d34882570aa40974415c582ea3948e000e561d9cb010f9";
-
   // The new message that will progressively emerge
-  const NEW_MESSAGE = "2020s era flâneur. Welcome! Hint: Clue(1985) - 54:42. All caps, no punctuation";
+  const NEW_MESSAGE = "2020s era flâneur. Welcome! Hint: Clue(1985) - 54:42. Lowercase, no punctuation";
   
   // Characters used to create the visual static/glitch effect
   const GLITCH_CHARS = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿŒœŠšŸžƒˆ˜–—‘’‚“”„†‡•…‰‹›€™";
-
+  const ENCRYPTED_QUOTE_HASH = "1bb1ac9a5508f4bfa8d34882570aa40974415c582ea3948e000e561d9cb010f9";
+  
   let isGlitched = false;
 
   secretFern.addEventListener("click", () => {
@@ -157,7 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 30); // Runs every 30 milliseconds for a high-framerate glitched effect
   });
-
  
   // Native web browser hashing function
   async function generateSHA256(text) {
@@ -188,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       lockFeedback.style.color = "red";
       lockFeedback.textContent = "Static detected. Phrase verification failed.";
+      print(ENCRYPTED_QUOTE_HASH);
     }
   });
 });
