@@ -24,20 +24,48 @@ body {
   padding: 80px 0 40px;
 }
 
+.top-nav {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-bottom: 70px;
+  padding: 24px 30px;
+
+  background: #183b56;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+
 .top-nav a {
-  width: 68px;
-  height: 68px;
+  position: relative;
+  width: 84px;
+  height: 84px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: #f3c969;
+  background: transparent;
   color: #183b56;
   text-align: center;
   text-decoration: none;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: bold;
+  line-height: 1.1;
+
+  transition: transform 0.2s ease;
+}
+
+.top-nav a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background: #f3c969;
 
   clip-path: polygon(
     50% 0%,
@@ -52,29 +80,21 @@ body {
     39% 35%
   );
 
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.2s ease;
+}
+
+.top-nav a span {
+  position: relative;
+  z-index: 1;
+  max-width: 55px;
 }
 
 .top-nav a:hover {
-  background: #ffffff;
-  color: #183b56;
   transform: scale(1.12);
 }
 
-@media (max-width: 600px) {
-  .top-nav {
-    gap: 6px;
-    padding: 16px 10px;
-  }
-
-  .top-nav a {
-    width: 54px;
-    height: 54px;
-    font-size: 0.62rem;
-  }
+.top-nav a:hover::before {
+  background: #ffffff;
 }
 html {
   scroll-behavior: smooth;
@@ -191,5 +211,22 @@ footer a {
     display: block;
     margin-top: 4px;
     text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .top-nav {
+    gap: 5px;
+    padding: 18px 8px;
+  }
+
+  .top-nav a {
+    width: 62px;
+    height: 62px;
+    font-size: 0.58rem;
+  }
+
+  .top-nav a span {
+    max-width: 42px;
   }
 }
