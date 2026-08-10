@@ -1,11 +1,35 @@
 :root {
-  --text: #1f2a1f;
-  --muted: #667566;
-  --line: #d9e3d7;
-  --accent: #5f8f5b;
-  --accent-dark: #446b41;
-  --paper: #ffffff;
-  --nav-bg: #f7fbf6;
+  --text: #263226;
+  --heading: #203b25;
+  --muted: #6c7c6d;
+
+  --green-dark: #395d3d;
+  --green: #65936a;
+  --green-light: #b9cdb8;
+  --green-pale: #edf4ed;
+
+  --line: #d8e3d7;
+  --white: #ffffff;
+  --page: #fbfdfb;
+
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  --text: #e2ebe2;
+  --heading: #f0f6ef;
+  --muted: #aabbaa;
+
+  --green-dark: #b8d8b8;
+  --green: #78a879;
+  --green-light: #49654c;
+  --green-pale: #1e2b20;
+
+  --line: #374838;
+  --white: #263328;
+  --page: #121812;
+
+  color-scheme: dark;
 }
 
 * {
@@ -28,13 +52,24 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
+
   width: 100%;
-  background: var(--nav-bg);
-  border-bottom: 1px solid var(--line);
+  min-height: 48px;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px 18px;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 7px 18px;
+
+  background: var(--green-pale);
+  border-bottom: 1px solid var(--green-light);
+  box-shadow: 0 2px 8px rgba(48, 79, 51, 0.08);
+
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .nav-links {
@@ -186,6 +221,49 @@ footer a {
   .nav-dots {
     display: none;
   }
+
+  .nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--green-dark);
+  border-radius: 50%;
+
+  background: var(--white);
+  color: var(--green-dark);
+
+  cursor: pointer;
+  font-size: 1.05rem;
+  line-height: 1;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  background: var(--green-dark);
+  color: white;
+  transform: rotate(15deg);
+}
+
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--green-light);
+  outline-offset: 3px;
+}
 
   .site {
     width: min(780px, calc(100% - 24px));
