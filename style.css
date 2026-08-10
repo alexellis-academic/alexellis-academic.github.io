@@ -24,23 +24,9 @@ body {
   padding: 80px 0 40px;
 }
 
-.top-nav {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-bottom: 70px;
-  padding: 24px 40px;
-  background: #183b56;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 22px;
-}
-
 .top-nav a {
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
+  width: 68px;
+  height: 68px;
 
   display: flex;
   align-items: center;
@@ -50,18 +36,32 @@ body {
   color: #183b56;
   text-align: center;
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   font-weight: bold;
 
-  transition: transform 0.2s ease,
-              background-color 0.2s ease,
-              color 0.2s ease;
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .top-nav a:hover {
   background: #ffffff;
   color: #183b56;
-  transform: translateY(-5px);
+  transform: scale(1.12);
 }
 
 html {
