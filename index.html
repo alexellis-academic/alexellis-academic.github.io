@@ -189,9 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const sanitizedInput = normalizeInput(paragraphInput.value);
     const userGuessHash = await generateSHA256(sanitizedInput);
 
-    console.log("Normalized input:", JSON.stringify(sanitizedInput));
-    console.log("Generated hash:", userGuessHash);
-
     if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
       lockFeedback.style.color = "green";
       lockFeedback.textContent =
