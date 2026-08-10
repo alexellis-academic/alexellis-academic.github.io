@@ -30,6 +30,12 @@ html[data-theme="dark"] {
   color-scheme: dark;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
   background: var(--page);
