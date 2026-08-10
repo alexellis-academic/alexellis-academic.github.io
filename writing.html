@@ -4,21 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <meta name="color-scheme" content="light dark">
+
   <title>Alex Ellis</title>
 
-  <!-- Apply the theme before the page is painted -->
+  <!-- This must be before style.css -->
   <script>
     (() => {
       const savedTheme = localStorage.getItem("theme");
 
-      const systemPrefersDark = window.matchMedia(
+      const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches;
 
-      const startingTheme =
-        savedTheme || (systemPrefersDark ? "dark" : "light");
+      const theme =
+        savedTheme || (prefersDark ? "dark" : "light");
 
-      document.documentElement.dataset.theme = startingTheme;
+      const root = document.documentElement;
+
+      root.dataset.theme = theme;
+      root.classList.add("theme-loading");
+
+      /*
+        Apply a background immediately, before CSS finishes loading.
+        This is especially helpful on mobile browsers.
+      */
+      root.style.backgroundColor =
+        theme === "dark" ? "#121812" : "#fbfdfb";
     })();
   </script>
 
