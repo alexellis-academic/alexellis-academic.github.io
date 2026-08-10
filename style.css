@@ -85,7 +85,7 @@ body {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -95,7 +95,7 @@ body {
   justify-content: center;
 
   min-height: 32px;
-  padding: 4px 15px;
+  padding: 4px 14px;
 
   border: 1px solid var(--green-dark);
   border-radius: 999px;
@@ -106,11 +106,6 @@ body {
   font-size: 0.78rem;
   font-weight: bold;
   text-decoration: none;
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
 }
 
 .nav-links a:hover,
