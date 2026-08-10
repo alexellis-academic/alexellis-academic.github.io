@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
       lockFeedback.style.color = "red";
       lockFeedback.textContent = "Static detected. Phrase verification failed.";
       password = ENCRYPTED_QUOTE_HASH;
-      print(password);
+      document.getElementById("output-box").innerHTML = password;
     }
   });
 });
