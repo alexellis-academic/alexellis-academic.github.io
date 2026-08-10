@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const ANSWER_PARAGRAPH = "the medium is the architecture of the mind. we do not consume the signal; the signal consumes us.";
 
   // The new message that will progressively emerge
-  const NEW_MESSAGE = "2020s era flâneur. Welcome!<br> Hint: Look below the baseline.";
+  const NEW_MESSAGE = "2020s era flâneur. Welcome! Hint: Look below the baseline.";
   
   // Characters used to create the visual static/glitch effect
   const GLITCH_CHARS = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿŒœŠšŸžƒˆ˜–—‘’‚“”„†‡•…‰‹›€™";
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isGlitched = true;
 
     // Apply a creepy deep red color but keep your portfolio's original font family
-    targetIntro.style.color = "#2596be"; 
+    targetIntro.style.color = "#3a5f42"; 
     hiddenCitation.style.display = "block";
 
     let iterations = 0;
@@ -155,9 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (iterations >= totalFrames) {
         clearInterval(glitchInterval);
         targetIntro.textContent = NEW_MESSAGE; // Ensure no stray symbols are left
-        targetIntro.classList.remove("twitch-effect");
       }
     }, 30); // Runs every 30 milliseconds for a high-framerate glitched effect
+    targetIntro.classList.remove("twitch-effect");
   });
 
   // Keep your existing validation logic for the input box below
