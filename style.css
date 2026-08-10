@@ -1,4 +1,5 @@
 :root {
+  --page: #fbfdfb;
   --text: #263226;
   --heading: #203b25;
   --muted: #6c7c6d;
@@ -7,15 +8,14 @@
   --green: #65936a;
   --green-light: #b9cdb8;
   --green-pale: #edf4ed;
-
   --line: #d8e3d7;
   --white: #ffffff;
-  --page: #fbfdfb;
 
   color-scheme: light;
 }
 
 html[data-theme="dark"] {
+  --page: #121812;
   --text: #e2ebe2;
   --heading: #f0f6ef;
   --muted: #aabbaa;
@@ -24,20 +24,23 @@ html[data-theme="dark"] {
   --green: #78a879;
   --green-light: #49654c;
   --green-pale: #1e2b20;
-
   --line: #374838;
   --white: #263328;
-  --page: #121812;
 
   color-scheme: dark;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 html {
   scroll-behavior: smooth;
+  background: var(--page);
+}
+
+/* Prevent animations during the first render */
+html.theme-loading *,
+html.theme-loading *::before,
+html.theme-loading *::after {
+  transition: none !important;
+  animation: none !important;
 }
 
 body {
@@ -46,10 +49,6 @@ body {
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
-
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease;
 }
 
 /* ------------------------------
