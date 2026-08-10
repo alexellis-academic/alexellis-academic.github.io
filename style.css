@@ -190,7 +190,7 @@ body {
    Main content
 ------------------------------ */
 .site {
-  width: min(780px, calc(100% - 24px));
+  width: min(780px, calc(100% - 20px));
   margin: 0 auto;
   padding: 40px 0;
 }
