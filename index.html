@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const submitBtn = document.getElementById("submit-phrase-btn");
   const lockFeedback = document.getElementById("lock-feedback");
 
-  const ANSWER_PARAGRAPH = "I CANT UNLOCK THE DOOR WITHOUT THE KEY";
+  const ENCRYPTED_QUOTE_HASH = "1bb1ac9a5508f4bfa8d34882570aa40974415c582ea3948e000e561d9cb010f9";
 
   // The new message that will progressively emerge
   const NEW_MESSAGE = "2020s era flâneur. Welcome! Hint: Clue(1985) - 54:42. All caps, no punctuation";
@@ -158,18 +158,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 30); // Runs every 30 milliseconds for a high-framerate glitched effect
   });
 
-  // Keep your existing validation logic for the input box below
-  submitBtn.addEventListener("click", () => {
-    const cleanedInput = paragraphInput.value.trim().toLowerCase();
-    if (cleanedInput === ANSWER_PARAGRAPH.toLowerCase()) {
+ 
+  // Native web browser hashing function
+  async function generateSHA256(text) {
+    const msgUint8 = new TextEncoder().encode(text);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  submitBtn.addEventListener("click", async () => {
+    // 1. Clean the input: make it lowercase and strip out punctuation/symbols
+    const rawInput = paragraphInput.value.trim().toLowerCase();
+    const sanitizedInput = rawInput.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, ""); 
+
+    // 2. Hash the user's cleaned guess
+    const userGuessHash = await generateSHA256(sanitizedInput);
+
+    // 3. Verify the match
+    if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
       lockFeedback.style.color = "green";
-      lockFeedback.textContent = "Access granted. Routing to subnet...";
+      lockFeedback.textContent = "Frequency matched. Connecting to localized signal...";
+      
       setTimeout(() => {
+        // Redirect them to the next secret webpage in your repository
         window.location.href = "https://yoursite.com"; 
       }, 1500);
+      
     } else {
       lockFeedback.style.color = "red";
-      lockFeedback.textContent = "Static detected. Transmission corrupted or incomplete.";
+      lockFeedback.textContent = "Static detected. Phrase verification failed.";
     }
   });
 });
