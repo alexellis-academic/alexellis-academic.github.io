@@ -194,6 +194,8 @@ document.addEventListener("DOMContentLoaded", () => {
       lockFeedback.textContent =
         "Frequency matched. Connecting to localized signal...";
 
+      sessionStorage.setItem("secretUnlocked", "true");
+
       setTimeout(() => {
         window.location.href = "next-secret.html";
       }, 1500);
