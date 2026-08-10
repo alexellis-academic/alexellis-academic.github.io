@@ -24,6 +24,54 @@ body {
   padding: 80px 0 40px;
 }
 
+.top-nav {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-bottom: 70px;
+  padding: 24px 40px;
+  background: #183b56;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+}
+
+.top-nav a {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f3c969;
+  color: #183b56;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: bold;
+
+  transition: transform 0.2s ease,
+              background-color 0.2s ease,
+              color 0.2s ease;
+}
+
+.top-nav a:hover {
+  background: #ffffff;
+  color: #183b56;
+  transform: translateY(-5px);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 30px;
+}
+
 .hero {
   max-width: 650px;
   padding-bottom: 70px;
