@@ -117,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let isGlitched = false;
 
   secretFern.addEventListener("click", () => {
-    targetIntro.classList.add("twitch-effect");
     // Prevent multiple clicks from breaking the animation loop
     if (isGlitched) return; 
     isGlitched = true;
@@ -157,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
         targetIntro.textContent = NEW_MESSAGE; // Ensure no stray symbols are left
       }
     }, 30); // Runs every 30 milliseconds for a high-framerate glitched effect
-    targetIntro.classList.remove("twitch-effect");
   });
 
   // Keep your existing validation logic for the input box below
