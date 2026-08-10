@@ -1,3 +1,4 @@
+// make the transition not flashbang you every time you switch pages on dark mode
 const themeToggle = document.querySelector("#theme-toggle");
 const themeIcon = document.querySelector(".theme-icon");
 
