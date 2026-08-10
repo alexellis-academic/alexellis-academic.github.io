@@ -166,34 +166,53 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 30); // Runs every 30 milliseconds for a high-framerate glitched effect
   });
- 
-  // Native web browser hashing function
-  async function generateSHA256(text) {
-    const msgUint8 = new TextEncoder().encode(text);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  }
+async function generateSHA256(text) {
+  const msgUint8 = new TextEncoder().encode(text);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+  return hashArray
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function normalizeInput(text) {
+  return text
+    .toLowerCase()
+    .normalize("NFKC")
+    .replace(/[^\p{L}\p{N}\s]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 submitBtn.addEventListener("click", async () => {
-  const sanitizedInput = normalizeInput(paragraphInput.value);
-  const userGuessHash = await generateSHA256(sanitizedInput);
+  try {
+    const sanitizedInput = normalizeInput(paragraphInput.value);
 
-  console.log("Normalized input:", JSON.stringify(sanitizedInput));
-  console.log("Generated hash:", userGuessHash);
+    console.log("Normalized input:", JSON.stringify(sanitizedInput));
 
-  if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
-    lockFeedback.style.color = "green";
-    lockFeedback.textContent =
-      "Frequency matched. Connecting to localized signal...";
+    const userGuessHash = await generateSHA256(sanitizedInput);
 
-    setTimeout(() => {
-      window.location.href = "next-secret.html";
-    }, 1500);
-  } else {
+    console.log("Generated hash:", userGuessHash);
+
+    if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
+      lockFeedback.style.color = "green";
+      lockFeedback.textContent =
+        "Frequency matched. Connecting to localized signal...";
+
+      setTimeout(() => {
+        window.location.href = "next-secret.html";
+      }, 1500);
+    } else {
+      lockFeedback.style.color = "red";
+      lockFeedback.textContent =
+        "Static detected. Phrase verification failed.";
+    }
+  } catch (error) {
+    console.error("Verification error:", error);
     lockFeedback.style.color = "red";
     lockFeedback.textContent =
-      "Static detected. Phrase verification failed.";
+      "The verification system encountered an error.";
   }
 });
  </script>
