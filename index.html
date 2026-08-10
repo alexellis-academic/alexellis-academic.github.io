@@ -25,11 +25,6 @@
 
       root.dataset.theme = theme;
       root.classList.add("theme-loading");
-
-      /*
-        Apply a background immediately, before CSS finishes loading.
-        This is especially helpful on mobile browsers.
-      */
       root.style.backgroundColor =
         theme === "dark" ? "#121812" : "#fbfdfb";
     })();
@@ -86,6 +81,28 @@
       <p class="intro">
       A comms x linguistics student, writer, designer, and media contributor.
       </p>
+       <span id="secret-fern" aria-hidden="true" style="font-size: 24px; cursor: pointer; user-select: none;">⸙</span></div>
+      
+<!-- A standard Academic Citation section -->
+    <div class="citations-section">
+    <h3>Selected Bibliography</h3>
+    <ul>
+      <li>
+      McLuhan, M. (1964). <em>Understanding Media: The Extensions of Man</em>. McGraw-Hill.
+      </li>
+
+       <!-- The Hidden Puzzle Entry Point -->
+    <li id="hidden-citation-node" style="display: none; margin-top: 15px; padding: 10px; border-left: 2px solid #efefef;">
+      <span class="source-hint"><em>Verification Required:</em> Input the missing transmission block to verify your clearance.</span>
+      <div style="margin-top: 8px;">
+        <!-- The textbook input box for the found paragraph -->
+        <textarea id="paragraph-input" placeholder="Paste the exact text block here..." rows="3" style="width: 100%; max-width: 500px; display: block; margin-bottom: 5px; font-family: monospace;"></textarea>
+        <button id="submit-phrase-btn">Verify Coordinates</button>
+        <p id="lock-feedback" style="font-size: 12px; color: red; margin: 5px 0 0 0;"></p>
+      </div>
+    </li>
+  </ul>
+</div>
 
       <a class="button" href="mailto:alex.ellis@mail.utoronto.ca">
         Contact me here
@@ -101,5 +118,50 @@
 
   </main>
 
+  document.addEventListener("DOMContentLoaded", () => {
+  const secretFern = document.getElementById("secret-fern");
+  const targetIntro = document.getElementById("target-intro");
+  const hiddenCitation = document.getElementById("hidden-citation-node");
+  
+  const paragraphInput = document.getElementById("paragraph-input");
+  const submitBtn = document.getElementById("submit-phrase-btn");
+  const lockFeedback = document.getElementById("lock-feedback");
+
+  // DEFINITION: The exact paragraph 
+  const ANSWER_PARAGRAPH = "the medium is the architecture of the mind. we do not consume the signal; the signal consumes us.";
+
+  // STEP 1: Click the fern to warp reality
+  secretFern.addEventListener("click", () => {
+    intro.textContent = "2020s era flaneur";
+    
+    // Give it a subtle glitched style change
+    targetIntro.style.color = "#8b0000"; 
+    targetIntro.style.fontFamily = "monospace";
+    
+    // Reveal the hidden textbook input field in the bibliography
+    hiddenCitation.style.display = "block";
+  });
+
+  // STEP 2: Verify the found paragraph
+  submitBtn.addEventListener("click", () => {
+    // Clean up the user input to match formatting easily
+    const cleanedInput = paragraphInput.value.trim().toLowerCase();
+
+    if (cleanedInput === ANSWER_PARAGRAPH.toLowerCase()) {
+      lockFeedback.style.color = "green";
+      lockFeedback.textContent = "Access granted. Routing to subnet...";
+      
+      // Redirect the user deeper into the bizarre pages after a brief delay
+      setTimeout(() => {
+        window.location.href = "https://yoursite.com"; 
+      }, 1500);
+      
+    } else {
+      // Unsettling failure feedback
+      lockFeedback.style.color = "red";
+      lockFeedback.textContent = "Static detected. Transmission corrupted or incomplete.";
+    }
+  });
+});
 </body>
 </html>
