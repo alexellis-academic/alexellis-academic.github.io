@@ -8,6 +8,35 @@
   <script src="script.js" defer></script>
 </head>
 <body>
+  <nav class="top-nav" aria-label="Main navigation">
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="research.html">Research</a>
+      <a href="writing.html">Writing</a>
+      <a href="design.html">Design</a>
+      <a href="media.html">Media</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="nav-controls">
+      <div class="nav-dots" aria-hidden="true">
+        <span class="dot-light"></span>
+        <span class="dot-medium"></span>
+        <span class="dot-dark"></span>
+      </div>
+
+      <button
+        class="theme-toggle"
+        id="theme-toggle"
+        type="button"
+        aria-label="Switch to dark mode"
+        aria-pressed="false"
+      >
+        <span class="theme-icon" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </nav>
+  
 <main class="site">
   <header class="page-header">
     <p class="eyebrow">Contact</p>
