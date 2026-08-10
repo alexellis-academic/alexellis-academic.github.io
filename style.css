@@ -317,7 +317,6 @@ footer a {
   color: var(--muted);
   text-decoration: none;
 }
-
 /* ------------------------------
    Mobile layout
 ------------------------------ */
@@ -332,6 +331,13 @@ footer a {
   .nav-links {
     flex: 1 1 calc(100% - 50px);
     min-width: 0;
+    gap: 5px;
+  }
+
+  .nav-links a {
+    min-height: 30px;
+    padding: 3px 10px;
+    font-size: 0.72rem;
   }
 
   .nav-controls {
@@ -342,24 +348,16 @@ footer a {
   .nav-dots {
     display: none;
   }
-
-  .nav-links a {
-    min-height: 30px;
-    padding: 3px 10px;
-    font-size: 0.72rem;
-  }
 }
 
-  .nav-dots {
-    display: none;
-  }
-
+@media (max-width: 600px) {
   .site {
-    width: min(780px, calc(100% - 24px));
+    width: calc(100% - 20px);
     padding-top: 24px;
   }
 
   .hero {
     padding-top: 24px;
   }
+}
 }
