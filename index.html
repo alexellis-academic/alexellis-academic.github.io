@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,6 +80,7 @@
       <p id="target-intro" class="intro">
       A comms x linguistics student, writer, designer, and media contributor.
       </p>
+      <p id="debug-output"></p>
       
       
      <div class="hidden-puzzle">
@@ -196,7 +196,12 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       lockFeedback.style.color = "red";
       lockFeedback.textContent = "Static detected. Phrase verification failed.";
-      document.getElementById("output-box").innerHTML = ENCRYPTED_QUOTE_HASH;
+     const expectedHash =
+      "1bb1ac9a5508f4bfa8d34882570aa40974415c582ea3948e000e561d9cb010f9";
+
+      const debugOutput = document.getElementById("debug-output");
+
+      debugOutput.textContent = expectedHash;
     }
   });
 });
