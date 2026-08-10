@@ -196,12 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       lockFeedback.style.color = "red";
       lockFeedback.textContent = "Static detected. Phrase verification failed.";
-     const expectedHash =
-      "1bb1ac9a5508f4bfa8d34882570aa40974415c582ea3948e000e561d9cb010f9";
-
-      const debugOutput = document.getElementById("debug-output");
-
-      debugOutput.textContent = expectedHash;
     }
   });
 });
