@@ -83,14 +83,25 @@
       </p>
       
       
-       <!-- The Hidden Puzzle Entry Point -->
-    <li id="hidden-citation-node" style="display: none; margin-top: 15px; padding: 10px; border-left: 2px solid #efefef;">
-      <span class="source-hint"><em>Verification Required:</em> Input the missing transmission block to verify your clearance.</span>
-      <div style="margin-top: 8px;">
-        <!-- The textbook input box for the found paragraph -->
-        <textarea id="paragraph-input" placeholder="Paste the exact text block here..." rows="3" style="width: 100%; max-width: 500px; display: block; margin-bottom: 5px; font-family: monospace;"></textarea>
-        <button id="submit-phrase-btn">Verify Coordinates</button>
-        <p id="lock-feedback" style="font-size: 12px; color: red; margin: 5px 0 0 0;"></p>
+     <div class="hidden-puzzle">
+  <ul>
+    <li id="hidden-citation-node" style="display: none;">
+      <span class="source-hint">
+        <em>Verification Required:</em>
+        Input the missing transmission block to verify your clearance.
+      </span>
+
+      <div>
+        <textarea
+          id="paragraph-input"
+          placeholder="Paste the exact text block here..."
+          rows="3"></textarea>
+
+        <button id="submit-phrase-btn" type="button">
+          Verify Coordinates
+        </button>
+
+        <p id="lock-feedback"></p>
       </div>
     </li>
   </ul>
