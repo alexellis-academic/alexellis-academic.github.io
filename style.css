@@ -230,3 +230,26 @@ footer a {
     max-width: 42px;
   }
 }
+
+.top-nav a {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  clip-path: none !important;
+  overflow: visible;
+  color: #183b56;
+}
+
+.top-nav a::before {
+  z-index: -1;
+  pointer-events: none;
+}
+
+.top-nav a span {
+  position: relative;
+  z-index: 2;
+  display: block;
+  color: #183b56;
+  text-align: center;
+  line-height: 1.1;
+}
