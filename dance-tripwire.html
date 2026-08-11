@@ -90,21 +90,18 @@
     const HOME_URL = "index.html"; 
     const SUCCESS_URL = "clearance_granted.html"; 
     
-    // --- CONFIGURATION ---
     const DANCE_VIDEOS = [
         { id: "-bt4cX7dCT8", start: 78, duration: 30 },
         { id: "GxKspeYAFYw", start: 0,  duration: 0 },
         { id: "vIKoVCvqiCE", start: 0,  duration: 0 }
     ];
 
-    let countdown = 3;
+    let countdown = 5; // Start from 5
     let tripwireActive = false;
     let timerInterval;
     let successTimeout;
     let player;
     let selectedVideo;
-    let hasInteracted = false;
-    let playerReady = false; // Track if player is ready
 
     const timerDisplay = document.getElementById('timer');
     const statusMessage = document.getElementById('status-message');
@@ -129,7 +126,7 @@
                 'modestbranding': 1,
                 'rel': 0,
                 'start': selectedVideo.start,
-                'mute': 1, 
+                'mute': 1,          // Must stay muted for autoplay
                 'playsinline': 1
             },
             events: {
@@ -140,34 +137,17 @@
     }
 
     function onPlayerReady(event) {
-        playerReady = true;
         const iframe = document.getElementById('player');
         if (iframe) {
             iframe.setAttribute('allow', 'autoplay; encrypted-media');
         }
 
-        // Try to play immediately (will work once muted)
         if (player && typeof player.playVideo === 'function') {
             player.playVideo();
         }
 
-        // Wait for first user interaction to unmute and start countdown
-        window.addEventListener('click', () => {
-            if (!hasInteracted && player && typeof player.unMute === 'function') {
-                player.unMute();
-                hasInteracted = true;
-                startCountdown(); // Start countdown only after first click
-            }
-        }, { once: true }); // Only fire once
-        
-        // Also try touch for mobile
-        window.addEventListener('touchstart', () => {
-            if (!hasInteracted && player && typeof player.unMute === 'function') {
-                player.unMute();
-                hasInteracted = true;
-                startCountdown();
-            }
-        }, { once: true });
+        // Start countdown immediately from 5
+        startCountdown();
     }
 
     function startCountdown() {
@@ -190,7 +170,6 @@
         videoContainer.style.display = "block";
         trapShield.style.display = "block"; 
         
-        // Ensure event listeners are attached
         window.addEventListener('keydown', triggerFail, { once: true });
         window.addEventListener('mousemove', triggerFail, { once: true });
         window.addEventListener('mousedown', triggerFail, { once: true });
@@ -214,12 +193,11 @@
     }
 
     function triggerSuccess() {
-        if (!tripwireActive) return; // Prevent double-firing
+        if (!tripwireActive) return;
         
         tripwireActive = false;
         clearTimeout(successTimeout);
         
-        // Remove all fail listeners
         window.removeEventListener('keydown', triggerFail);
         window.removeEventListener('mousemove', triggerFail);
         window.removeEventListener('mousedown', triggerFail);
@@ -251,7 +229,6 @@
             player.stopVideo();
         }
 
-        // Force redirect after short delay
         setTimeout(() => {
             window.location.href = HOME_URL;
         }, 1500);
