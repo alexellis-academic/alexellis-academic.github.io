@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   <script>
-  if (sessionStorage.getItem("tripwire_passed") !== "true") {
+  // Run as soon as possible
+  const passed = localStorage.getItem("tripwire_passed");
+  if (passed !== "yes") {
     window.location.replace("404.html");
+  } else {
+    localStorage.removeItem("tripwire_passed");
   }
-  </script>
+</script>
   <title>Secret</title>
   <link rel="icon" type="image/png" href="favicon.png">
   
