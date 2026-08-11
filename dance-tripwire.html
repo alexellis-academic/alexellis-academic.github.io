@@ -18,11 +18,13 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            user-select: none;
         }
 
         #screen-wrapper {
             width: 90%;
             max-width: 800px;
+            position: relative;
         }
 
         h1 {
@@ -47,12 +49,25 @@
             background: #111;
             border: 2px solid #ff0000;
             margin-top: 20px;
+            position: relative; /* Anchor for the trap shield */
         }
 
         iframe {
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        /* Invisible shield to catch mouse moves over the iframe */
+        #trap-shield {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: transparent;
         }
 
         @keyframes blink {
@@ -64,44 +79,43 @@
 <body>
 
     <div id="screen-wrapper">
-        <h1 id="status-message">YOU HAVE ACTIVATED A DANCE TRIPWIRE.<br>COMPLETE ONE DANCE TO RETAIN YOUR CLEARANCE.</h1>
+        <h1 id="status-message">YOU HAVE ACTIVATED A DANCE TRIPWIRE.<br>CLICK ONCE TO RE-ENGAGE SOUND & PROCEED.</h1>
         <div id="timer">3</div>
         
         <div id="video-container">
+            <div id="trap-shield"></div>
             <div id="player"></div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
         const HOME_URL = "index.html"; 
-        const SUCCESS_URL = "clearance_granted.html"; // Replace with your success page
+        const SUCCESS_URL = "clearance_granted.html"; 
         
-        // Array of objects containing clean 11-char IDs and optional start times
         const DANCE_VIDEOS = [
-            { id: "-bt4cX7dCT8", start: 78 }, // HOWL (Starts at 78s)
-            { id: "GxKspeYAFYw", start: 0 },  // 混沌ブギ
-            { id: "vIKoVCvqiCE", start: 0 }   // Pokedance (Fixed clean ID)
+            { id: "-bt4cX7dCT8", start: 78 }, 
+            { id: "GxKspeYAFYw", start: 0 },  
+            { id: "vIKoVCvqiCE", start: 0 }   
         ];
 
         let countdown = 3;
         let tripwireActive = false;
         let timerInterval;
         let player;
+        let hasInteracted = false;
 
         const timerDisplay = document.getElementById('timer');
         const statusMessage = document.getElementById('status-message');
         const videoContainer = document.getElementById('video-container');
+        const trapShield = document.getElementById('trap-shield');
 
-        // Load YouTube Iframe API
+        // Load YouTube API
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        // Initialize YouTube Player
         function onYouTubeIframeAPIReady() {
-            // Pick a random video object
             const randomVideo = DANCE_VIDEOS[Math.floor(Math.random() * DANCE_VIDEOS.length)];
             
             player = new YT.Player('player', {
@@ -112,16 +126,27 @@
                     'disablekb': 1,  
                     'modestbranding': 1,
                     'rel': 0,
-                    'start': randomVideo.start // Sets custom start time
+                    'start': randomVideo.start,
+                    'mute': 1 // Forces video autoplay bypassing browser locks
                 },
                 events: {
-                    'onReady': startCountdown,
+                    'onReady': onPlayerReady,
                     'onStateChange': handlePlayerStateChange
                 }
             });
         }
 
-        // Start the 3-second grace period
+        function onPlayerReady() {
+            // Unmute immediately if the player clicks anywhere to engage
+            window.addEventListener('click', () => {
+                if(!hasInteracted && player) {
+                    player.unMute();
+                    hasInteracted = true;
+                }
+            });
+            startCountdown();
+        }
+
         function startCountdown() {
             timerInterval = setInterval(() => {
                 countdown--;
@@ -136,49 +161,47 @@
             }, 1000);
         }
 
-        // Arm the trap after countdown ends
         function activateTripwire() {
             tripwireActive = true;
             statusMessage.innerHTML = "TRIPWIRE ARMED.<br>DO NOT TOUCH CONTROLS. DANCE.";
             videoContainer.style.display = "block";
+            trapShield.style.display = "block"; // Blocks iframe from eating mouse events
             
-            // Start listening for physical inputs
+            // Global triggers
             window.addEventListener('keydown', triggerFail);
             window.addEventListener('mousemove', triggerFail);
             window.addEventListener('mousedown', triggerFail);
+            
+            // Shield specific triggers
+            trapShield.addEventListener('mousemove', triggerFail);
+            trapShield.addEventListener('mousedown', triggerFail);
         }
 
-        // Check if the video has ended successfully
         function handlePlayerStateChange(event) {
-            // YT.PlayerState.ENDED is status code 0
             if (event.data === YT.PlayerState.ENDED && tripwireActive) {
                 triggerSuccess();
             }
         }
 
-        // Clear input listeners and grant access
         function triggerSuccess() {
             tripwireActive = false;
             
-            // Remove listeners so they don't accidentally trigger a fail now
             window.removeEventListener('keydown', triggerFail);
             window.removeEventListener('mousemove', triggerFail);
             window.removeEventListener('mousedown', triggerFail);
 
-            document.body.style.backgroundColor = "#002200"; // Flash green for success
+            document.body.style.backgroundColor = "#002200"; 
             statusMessage.style.color = "#00ff00";
             statusMessage.innerText = "CLEARANCE RETAINED. ACCESS GRANTED.";
             timerDisplay.innerText = "PASS";
             timerDisplay.style.color = "#00ff00";
             videoContainer.style.display = "none";
 
-            // Redirect to success page after 2 seconds
             setTimeout(() => {
                 window.location.href = SUCCESS_URL;
             }, 2000);
         }
 
-        // Boot user back to home screen
         function triggerFail() {
             if (!tripwireActive) return;
             
@@ -186,16 +209,14 @@
             statusMessage.innerText = "ACCESS DENIED. REBOOTING SYSTEM...";
             timerDisplay.innerText = "FAIL";
             videoContainer.style.display = "none";
+            trapShield.style.display = "none";
             
             if (player) player.stopVideo();
 
-            // Redirect after 1.5 seconds
             setTimeout(() => {
-                window.location.href = index.html;
+                window.location.href = HOME_URL;
             }, 1500);
         }
     </script>
 </body>
 </html>
-
-Use code with caution.
