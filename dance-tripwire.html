@@ -17,38 +17,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            user-select: none;
         }
 
         #screen-wrapper {
             width: 95%;
-            max-width: 1200px; /* Expanded layout scale for larger video canvas */
-            position: relative;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
 
-        h1 {
-            font-size: 1.25rem; /* Scaled down layout text */
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            animation: blink 1s infinite alternate;
-        }
-
-        #timer {
-            font-size: 3rem; /* Scaled down landing layout timer text */
-            font-weight: bold;
-            margin: 10px 0;
-            color: #fff;
-        }
-
+        /* Video fills the top slot of our column layout */
         #video-container {
             display: none;
             width: 100%;
             aspect-ratio: 16 / 9;
             background: #111;
             border: 2px solid #ff0000;
-            margin-top: 15px;
             position: relative; 
         }
 
@@ -69,41 +55,55 @@
             background: transparent;
         }
 
-        /* Glitch Animation Keyframes */
-        @keyframes structuralGlitch {
-            0% { transform: translate(0) skew(0deg); filter: hue-rotate(0deg); }
-            10% { transform: translate(-4px, 2px) skew(-5deg); filter: hue-rotate(90deg); text-shadow: 3px 0 #00ff00, -3px 0 #0000ff; }
-            20% { transform: translate(3px, -3px) skew(3deg); filter: hue-rotate(180deg); }
-            30% { transform: translate(0) skew(0deg); filter: none; text-shadow: none; }
-            40% { transform: translate(-2px, -1px) skew(-2deg); }
-            50% { transform: translate(5px, 4px) skew(8deg); filter: invert(1); text-shadow: -4px 0 #ffff00, 4px 0 #ff00ff; }
-            55% { transform: translate(0) skew(0deg); filter: none; text-shadow: none; }
-            100% { transform: translate(0) skew(0deg); }
+        /* Content block is pinned below the video container */
+        #ui-content {
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 1.5rem; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+
+        #timer {
+            font-size: 3rem; 
+            font-weight: bold;
+            margin: 5px 0;
+            color: #fff;
+        }
+
+        /* Safe, non-flashing layout drift for the fail state */
+        @keyframes safeDrift {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+            100% { transform: translateX(0); }
         }
 
         .glitched-state {
-            animation: structuralGlitch 0.15s infinite !important;
-            color: #fff !important;
-            background-color: #1a0000 !important;
-        }
-
-        @keyframes blink {
-            0% { opacity: 1; }
-            100% { opacity: 0.4; }
+            animation: safeDrift 0.3s ease-in-out infinite !important;
         }
     </style>
 </head>
 <body>
 
     <div id="screen-wrapper">
-        <h1 id="status-message">YOU HAVE ACTIVATED A DANCE TRIPWIRE.</h1>
-        <div id="timer">5</div>
-        
+        <!-- Video sits on top so text is never buried below the fold -->
         <div id="video-container">
             <div id="trap-shield"></div>
             <div id="player"></div>
         </div>
+
+        <div id="ui-content">
+            <h1 id="status-message">YOU HAVE ACTIVATED A DANCE TRIPWIRE.</h1>
+            <div id="timer">5</div>
+        </div>
     </div>
+
 <script>
     const HOME_URL = "index.html";
     const SUCCESS_URL = "clearance_granted.html";
@@ -242,21 +242,25 @@
         trapShield.removeEventListener("mousemove", triggerFail);
         trapShield.removeEventListener("mousedown", triggerFail);
 
-        // Turn on global hardware glitch style
-        document.body.classList.add("glitched-state");
-        statusMessage.style.animation = "none";
+        // Gently shifts the content container slightly to simulate distortion (completely seizure safe)
+        document.getElementById("ui-content").classList.add("glitched-state");
         
-        // Active corrupted string generator loop
+        // Slower text-rotation cycle (every 250ms) to look like a Terminal crash without strobe elements
         const corruptedStrings = [
-            "SYSTEM CORRUPTED", "ACCESS DENIED", "REBOOTING SYSTEM...", 
-            "FATAL ERROR", "TRIPWIRE DETECTED MOVE", "0x0000007B FAILED"
+            "CRITICAL_EXCEPTION", 
+            "ACCESS_DENIED_SYS_403", 
+            "REBOOTING_SYSTEM...", 
+            "TRIPWIRE_TRIPPED_ERR"
         ];
         
+        let counter = 0;
         glitchInterval = setInterval(() => {
-            statusMessage.innerText = corruptedStrings[Math.floor(Math.random() * corruptedStrings.length)];
-            timerDisplay.innerText = Math.random().toString(16).substring(2, 6).toUpperCase();
-        }, 60);
+            statusMessage.innerText = corruptedStrings[counter % corruptedStrings.length];
+            timerDisplay.innerText = "0x" + Math.floor(Math.random() * 999).toString(16).toUpperCase();
+            counter++;
+        }, 250);
 
+        // Hide video container so player focuses purely on the terminal text crash output
         videoContainer.style.display = "none";
         trapShield.style.display = "none";
 
@@ -266,9 +270,9 @@
 
         setTimeout(() => {
             clearInterval(glitchInterval);
-            document.body.classList.remove("glitched-state");
+            document.getElementById("ui-content").classList.remove("glitched-state");
             window.location.href = HOME_URL;
-        }, 1800); // Slightly lengthened to let them see the corruption glitch process
+        }, 2000); 
     }
 </script>
 </body>
