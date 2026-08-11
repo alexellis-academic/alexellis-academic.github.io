@@ -193,7 +193,8 @@
 
         tripwireActive = false;
         clearTimeout(successTimeout);
-
+        localStorage.setItem("tripwire_passed", "yes");
+        
         window.removeEventListener("keydown", triggerFail);
         window.removeEventListener("mousemove", triggerFail);
         window.removeEventListener("mousedown", triggerFail);
@@ -215,6 +216,7 @@
 
         tripwireActive = false;
         clearTimeout(successTimeout);
+        localStorage.removeItem("tripwire_passed");
 
         statusMessage.innerText = "ACCESS DENIED. REBOOTING SYSTEM...";
         timerDisplay.innerText = "FAIL";
