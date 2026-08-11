@@ -91,9 +91,9 @@
     const SUCCESS_URL = "clearance_granted.html";
 
     const DANCE_VIDEOS = [
-        { id: "ZkXD2XpJnCg", start: 0, duration: 0 },
-        { id: "ZkXD2XpJnCg", start: 38, duration: 20 },
-        { id: "GxKspeYAFYw", start: 0, duration: 0 }
+        { id: "-bt4cX7dCT8", start: 78, duration: 30 },
+        { id: "GxKspeYAFYw", start: 0, duration: 0 },
+        { id: "vIKoVCvqiCE", start: 0, duration: 0 }
     ];
 
     let countdown = 5;
@@ -193,8 +193,7 @@
 
         tripwireActive = false;
         clearTimeout(successTimeout);
-        localStorage.setItem("tripwire_passed", "yes");
-        
+
         window.removeEventListener("keydown", triggerFail);
         window.removeEventListener("mousemove", triggerFail);
         window.removeEventListener("mousedown", triggerFail);
@@ -216,7 +215,6 @@
 
         tripwireActive = false;
         clearTimeout(successTimeout);
-        localStorage.removeItem("tripwire_passed");
 
         statusMessage.innerText = "ACCESS DENIED. REBOOTING SYSTEM...";
         timerDisplay.innerText = "FAIL";
