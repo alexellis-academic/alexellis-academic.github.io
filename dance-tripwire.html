@@ -41,15 +41,15 @@
             margin: 20px 0;
             color: #fff;
         }
-
         #video-container {
             display: none;
-            width: 100%;
-            aspect-ratio: 16 / 9;
+            width: 90%;          /* or 100% */
+            max-width: 1200px;   /* optional: larger max width */
+            height: 60vh;        /* 60% of viewport height */
             background: #111;
             border: 2px solid #ff0000;
-            margin-top: 20px;
-            position: relative; 
+            margin: 20px auto 0; /* center horizontally */
+            position: relative;
         }
 
         iframe {
