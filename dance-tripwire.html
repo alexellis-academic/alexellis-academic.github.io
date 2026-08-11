@@ -87,75 +87,34 @@
         </div>
     </div>
 <script>
-    const HOME_URL = "index.html"; 
-    const SUCCESS_URL = "clearance_granted.html"; 
-    
+    const HOME_URL = "index.html";
+    const SUCCESS_URL = "clearance_granted.html";
+
     const DANCE_VIDEOS = [
         { id: "-bt4cX7dCT8", start: 78, duration: 30 },
-        { id: "GxKspeYAFYw", start: 0,  duration: 0 },
-        { id: "vIKoVCvqiCE", start: 0,  duration: 0 }
+        { id: "GxKspeYAFYw", start: 0, duration: 0 },
+        { id: "vIKoVCvqiCE", start: 0, duration: 0 }
     ];
 
-    let countdown = 5; // Start from 5
+    let countdown = 5;
     let tripwireActive = false;
     let timerInterval;
     let successTimeout;
     let player;
     let selectedVideo;
 
-    const timerDisplay = document.getElementById('timer');
-    const statusMessage = document.getElementById('status-message');
-    const videoContainer = document.getElementById('video-container');
-    const trapShield = document.getElementById('trap-shield');
-
-    // Load YouTube API
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script');
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    function onYouTubeIframeAPIReady() {
-        selectedVideo = DANCE_VIDEOS[Math.floor(Math.random() * DANCE_VIDEOS.length)];
-        
-        player = new YT.Player('player', {
-            videoId: selectedVideo.id,
-            playerVars: {
-                'autoplay': 1,
-                'controls': 0,    
-                'disablekb': 1,  
-                'modestbranding': 1,
-                'rel': 0,
-                'start': selectedVideo.start,
-                'mute': 1,          // Must stay muted for autoplay
-                'playsinline': 1
-            },
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': handlePlayerStateChange
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        const iframe = document.getElementById('player');
-        if (iframe) {
-            iframe.setAttribute('allow', 'autoplay; encrypted-media');
-        }
-
-        if (player && typeof player.playVideo === 'function') {
-            player.playVideo();
-        }
-
-        // Start countdown immediately from 5
-        startCountdown();
-    }
+    const timerDisplay = document.getElementById("timer");
+    const statusMessage = document.getElementById("status-message");
+    const videoContainer = document.getElementById("video-container");
+    const trapShield = document.getElementById("trap-shield");
 
     function startCountdown() {
+        timerDisplay.innerText = countdown;
         timerInterval = setInterval(() => {
             countdown--;
             if (countdown > 0) {
                 timerDisplay.innerText = countdown;
-            } else if (countdown === 0) {
+            } else {
                 clearInterval(timerInterval);
                 timerDisplay.innerText = "LIVE";
                 timerDisplay.style.color = "#ff0000";
@@ -164,45 +123,82 @@
         }, 1000);
     }
 
+    // Start countdown immediately
+    startCountdown();
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+
+    function onYouTubeIframeAPIReady() {
+        selectedVideo = DANCE_VIDEOS[Math.floor(Math.random() * DANCE_VIDEOS.length)];
+
+        player = new YT.Player("player", {
+            videoId: selectedVideo.id,
+            playerVars: {
+                autoplay: 1,
+                controls: 0,
+                disablekb: 1,
+                modestbranding: 1,
+                rel: 0,
+                start: selectedVideo.start,
+                mute: 1,
+                playsinline: 1
+            },
+            events: {
+                onReady: onPlayerReady,
+                onStateChange: handlePlayerStateChange
+            }
+        });
+    }
+
+    function onPlayerReady() {
+        const iframe = document.querySelector("#player iframe");
+        if (iframe) {
+            iframe.setAttribute("allow", "autoplay; encrypted-media");
+        }
+        if (player && typeof player.playVideo === "function") {
+            player.playVideo();
+        }
+    }
+
     function activateTripwire() {
         tripwireActive = true;
         statusMessage.innerHTML = "TRIPWIRE ARMED.<br>DO NOT TOUCH CONTROLS. DANCE.";
         videoContainer.style.display = "block";
-        trapShield.style.display = "block"; 
-        
-        window.addEventListener('keydown', triggerFail, { once: true });
-        window.addEventListener('mousemove', triggerFail, { once: true });
-        window.addEventListener('mousedown', triggerFail, { once: true });
-        
-        trapShield.addEventListener('mousemove', triggerFail, { once: true });
-        trapShield.addEventListener('mousedown', triggerFail, { once: true });
+        trapShield.style.display = "block";
 
-        if (selectedVideo.duration > 0) {
+        window.addEventListener("keydown", triggerFail);
+        window.addEventListener("mousemove", triggerFail);
+        window.addEventListener("mousedown", triggerFail);
+
+        trapShield.addEventListener("mousemove", triggerFail);
+        trapShield.addEventListener("mousedown", triggerFail);
+
+        if (selectedVideo && selectedVideo.duration > 0) {
             successTimeout = setTimeout(() => {
-                if (tripwireActive) {
-                    triggerSuccess();
-                }
+                if (tripwireActive) triggerSuccess();
             }, selectedVideo.duration * 1000);
         }
     }
 
     function handlePlayerStateChange(event) {
-        if (event.data === YT.PlayerState.ENDED && selectedVideo.duration === 0 && tripwireActive) {
+        if (event.data === YT.PlayerState.ENDED && selectedVideo && selectedVideo.duration === 0 && tripwireActive) {
             triggerSuccess();
         }
     }
 
     function triggerSuccess() {
         if (!tripwireActive) return;
-        
+
         tripwireActive = false;
         clearTimeout(successTimeout);
-        
-        window.removeEventListener('keydown', triggerFail);
-        window.removeEventListener('mousemove', triggerFail);
-        window.removeEventListener('mousedown', triggerFail);
 
-        document.body.style.backgroundColor = "#002200"; 
+        window.removeEventListener("keydown", triggerFail);
+        window.removeEventListener("mousemove", triggerFail);
+        window.removeEventListener("mousedown", triggerFail);
+
+        document.body.style.backgroundColor = "#002200";
         statusMessage.style.color = "#00ff00";
         statusMessage.innerText = "CLEARANCE RETAINED. ACCESS GRANTED.";
         timerDisplay.innerText = "PASS";
@@ -216,16 +212,16 @@
 
     function triggerFail() {
         if (!tripwireActive) return;
-        
+
         tripwireActive = false;
         clearTimeout(successTimeout);
-        
+
         statusMessage.innerText = "ACCESS DENIED. REBOOTING SYSTEM...";
         timerDisplay.innerText = "FAIL";
         videoContainer.style.display = "none";
         trapShield.style.display = "none";
-        
-        if (player && typeof player.stopVideo === 'function') {
+
+        if (player && typeof player.stopVideo === "function") {
             player.stopVideo();
         }
 
