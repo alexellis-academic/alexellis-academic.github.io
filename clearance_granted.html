@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+  if (sessionStorage.getItem("tripwire_passed") !== "true") {
+    window.location.replace("404.html");
+  }
+  </script>
+  <title>Secret</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("theme");
+
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      const theme =
+        savedTheme || (prefersDark ? "dark" : "light");
+
+      const root = document.documentElement;
+
+      root.dataset.theme = theme;
+      root.classList.add("theme-loading");
+      root.style.backgroundColor =
+        theme === "dark" ? "#121812" : "#fbfdfb";
+    })();
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <nav class="top-nav" aria-label="Main navigation">
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+    </div>
+
+    <div class="nav-controls">
+      <div class="nav-dots" aria-hidden="true">
+        <span class="dot-light"></span>
+        <span class="dot-medium"></span>
+        <span class="dot-dark"></span>
+      </div>
+
+      <button
+        class="theme-toggle"
+        id="theme-toggle"
+        type="button"
+        aria-label="Switch to dark mode"
+        aria-pressed="false"
+      >
+        <span class="theme-icon" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="site">
+    <header class="page-header">
+      <p class="eyebrow">You're getting good at this</p>
+      <h1>Secret</h1>
+     <style>
+  </div>
+
+    
+    </header>
+    </main>
+
+</body>
+</html>
