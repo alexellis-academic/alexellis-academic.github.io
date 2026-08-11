@@ -17,28 +17,42 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            text-align: center;
+            user-select: none;
         }
 
         #screen-wrapper {
-            width: 95%;
-            max-width: 1000px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
         }
 
-        /* Video fills the top slot of our column layout */
+        h1 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            animation: blink 1s infinite alternate;
+        }
+
+        #timer {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #fff;
+        }
+
         #video-container {
             display: none;
             width: 100%;
             aspect-ratio: 16 / 9;
             background: #111;
             border: 2px solid #ff0000;
+            margin-top: 20px;
             position: relative; 
         }
 
-        iframe, #player {
+        iframe {
             width: 100%;
             height: 100%;
             border: none;
@@ -55,55 +69,23 @@
             background: transparent;
         }
 
-        /* Content block is pinned below the video container */
-        #ui-content {
-            text-align: center;
-            width: 100%;
-        }
-
-        h1 {
-            font-size: 1.5rem; 
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 10px 0;
-            line-height: 1.4;
-        }
-
-        #timer {
-            font-size: 3rem; 
-            font-weight: bold;
-            margin: 5px 0;
-            color: #fff;
-        }
-
-        /* Safe, non-flashing layout drift for the fail state */
-        @keyframes safeDrift {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-2px); }
-            75% { transform: translateX(2px); }
-            100% { transform: translateX(0); }
-        }
-
-        .glitched-state {
-            animation: safeDrift 0.3s ease-in-out infinite !important;
+        @keyframes blink {
+            0% { opacity: 1; }
+            100% { opacity: 0.4; }
         }
     </style>
 </head>
 <body>
 
     <div id="screen-wrapper">
-        <!-- Video sits on top so text is never buried below the fold -->
+        <h1 id="status-message">YOU HAVE ACTIVATED A DANCE TRIPWIRE.</h1>
+        <div id="timer">3</div>
+        
         <div id="video-container">
             <div id="trap-shield"></div>
             <div id="player"></div>
         </div>
-
-        <div id="ui-content">
-            <h1 id="status-message">YOU HAVE ACTIVATED A DANCE TRIPWIRE.</h1>
-            <div id="timer">5</div>
-        </div>
     </div>
-
 <script>
     const HOME_URL = "index.html";
     const SUCCESS_URL = "clearance_granted.html";
@@ -118,7 +100,6 @@
     let tripwireActive = false;
     let timerInterval;
     let successTimeout;
-    let glitchInterval;
     let player;
     let selectedVideo;
 
@@ -142,6 +123,7 @@
         }, 1000);
     }
 
+    // Start countdown immediately
     startCountdown();
 
     const tag = document.createElement("script");
@@ -236,31 +218,8 @@
         clearTimeout(successTimeout);
         localStorage.removeItem("tripwire_passed");
 
-        window.removeEventListener("keydown", triggerFail);
-        window.removeEventListener("mousemove", triggerFail);
-        window.removeEventListener("mousedown", triggerFail);
-        trapShield.removeEventListener("mousemove", triggerFail);
-        trapShield.removeEventListener("mousedown", triggerFail);
-
-        // Gently shifts the content container slightly to simulate distortion (completely seizure safe)
-        document.getElementById("ui-content").classList.add("glitched-state");
-        
-        // Slower text-rotation cycle (every 250ms) to look like a Terminal crash without strobe elements
-        const corruptedStrings = [
-            "CRITICAL_EXCEPTION", 
-            "ACCESS_DENIED_SYS_403", 
-            "REBOOTING_SYSTEM...", 
-            "TRIPWIRE_TRIPPED_ERR"
-        ];
-        
-        let counter = 0;
-        glitchInterval = setInterval(() => {
-            statusMessage.innerText = corruptedStrings[counter % corruptedStrings.length];
-            timerDisplay.innerText = "0x" + Math.floor(Math.random() * 999).toString(16).toUpperCase();
-            counter++;
-        }, 250);
-
-        // Hide video container so player focuses purely on the terminal text crash output
+        statusMessage.innerText = "ACCESS DENIED. REBOOTING SYSTEM...";
+        timerDisplay.innerText = "FAIL";
         videoContainer.style.display = "none";
         trapShield.style.display = "none";
 
@@ -269,10 +228,8 @@
         }
 
         setTimeout(() => {
-            clearInterval(glitchInterval);
-            document.getElementById("ui-content").classList.remove("glitched-state");
             window.location.href = HOME_URL;
-        }, 2000); 
+        }, 1500);
     }
 </script>
 </body>
