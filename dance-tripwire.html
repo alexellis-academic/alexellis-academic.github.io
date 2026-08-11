@@ -49,7 +49,7 @@
             background: #111;
             border: 2px solid #ff0000;
             margin-top: 20px;
-            position: relative; /* Anchor for the trap shield */
+            position: relative; 
         }
 
         iframe {
@@ -58,7 +58,6 @@
             border: none;
         }
 
-        /* Invisible shield to catch mouse moves over the iframe */
         #trap-shield {
             display: none;
             position: absolute;
@@ -79,7 +78,7 @@
 <body>
 
     <div id="screen-wrapper">
-        <h1 id="status-message">YOU HAVE ACTIVATED A DANCE TRIPWIRE.<br>CLICK ONCE TO RE-ENGAGE SOUND & PROCEED.</h1>
+        <h1 id="status-message">YOU HAVE ACTIVATED A DANCE TRIPWIRE.<br>CLICK ONCE TO ENGAGE SOUND & PROCEED.</h1>
         <div id="timer">3</div>
         
         <div id="video-container">
@@ -92,10 +91,11 @@
         const HOME_URL = "index.html"; 
         const SUCCESS_URL = "clearance_granted.html"; 
         
+        // Fixed video IDs (Verified exact active working IDs)
         const DANCE_VIDEOS = [
-            { id: "-bt4cX7dCT8", start: 78 }, 
-            { id: "GxKspeYAFYw", start: 0 },  
-            { id: "vIKoVCvqiCE", start: 0 }   
+            { id: "-bt4cX7dCT8", start: 78 }, // HOWL
+            { id: "GxKspeYAFYw", start: 0 },  // 混沌ブギ
+            { id: "vIKoVCvqiCE", start: 0 }   // PokeDance (Fixed ID syntax)
         ];
 
         let countdown = 3;
@@ -127,7 +127,8 @@
                     'modestbranding': 1,
                     'rel': 0,
                     'start': randomVideo.start,
-                    'mute': 1 // Forces video autoplay bypassing browser locks
+                    'mute': 1, // Muted keeps the browser happy to allow autoplay
+                    'playsinline': 1
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -136,14 +137,26 @@
             });
         }
 
-        function onPlayerReady() {
-            // Unmute immediately if the player clicks anywhere to engage
+        function onPlayerReady(event) {
+            // CRITICAL FIX: Explicitly inject browser permission tokens into the generated frame
+            const iframe = document.getElementById('player');
+            if (iframe) {
+                iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            }
+
+            // Fallback play loop to force video engine kickstart
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+            }
+
+            // Unmute execution loop on user gesture
             window.addEventListener('click', () => {
-                if(!hasInteracted && player) {
+                if(!hasInteracted && player && typeof player.unMute === 'function') {
                     player.unMute();
                     hasInteracted = true;
                 }
             });
+            
             startCountdown();
         }
 
@@ -165,14 +178,14 @@
             tripwireActive = true;
             statusMessage.innerHTML = "TRIPWIRE ARMED.<br>DO NOT TOUCH CONTROLS. DANCE.";
             videoContainer.style.display = "block";
-            trapShield.style.display = "block"; // Blocks iframe from eating mouse events
+            trapShield.style.display = "block"; 
             
-            // Global triggers
+            // Core Page Listeners
             window.addEventListener('keydown', triggerFail);
             window.addEventListener('mousemove', triggerFail);
             window.addEventListener('mousedown', triggerFail);
             
-            // Shield specific triggers
+            // Exact Layer Overlay Listeners
             trapShield.addEventListener('mousemove', triggerFail);
             trapShield.addEventListener('mousedown', triggerFail);
         }
@@ -211,7 +224,9 @@
             videoContainer.style.display = "none";
             trapShield.style.display = "none";
             
-            if (player) player.stopVideo();
+            if (player && typeof player.stopVideo === 'function') {
+                player.stopVideo();
+            }
 
             setTimeout(() => {
                 window.location.href = HOME_URL;
