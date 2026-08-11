@@ -91,17 +91,20 @@
         const HOME_URL = "index.html"; 
         const SUCCESS_URL = "clearance_granted.html"; 
         
-        // Fixed video IDs (Verified exact active working IDs)
+        // --- CONFIGURATION ---
+        // Added 'duration' property in seconds. Set to 0 if you want it to run until the video completely ends.
         const DANCE_VIDEOS = [
-            { id: "-bt4cX7dCT8", start: 78 }, // HOWL
-            { id: "GxKspeYAFYw", start: 0 },  // 混沌ブギ
-            { id: "vIKoVCvqiCE", start: 0 }   // PokeDance (Fixed ID syntax)
+            { id: "-bt4cX7dCT8", start: 78, duration: 30 }, // HOWL (Only runs for 30 seconds)
+            { id: "GxKspeYAFYw", start: 0,  duration: 0 },  // 混沌ブギ (Plays until the very end)
+            { id: "vIKoVCvqiCE", start: 0,  duration: 0 }   // PokeDance (Plays until the very end)
         ];
 
         let countdown = 3;
         let tripwireActive = false;
         let timerInterval;
+        let successTimeout; // Controls tracking for forced short durations
         let player;
+        let selectedVideo;
         let hasInteracted = false;
 
         const timerDisplay = document.getElementById('timer');
@@ -112,22 +115,22 @@
         // Load YouTube API
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
+        const firstScriptTag = document.getElementsByTagName('script');
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         function onYouTubeIframeAPIReady() {
-            const randomVideo = DANCE_VIDEOS[Math.floor(Math.random() * DANCE_VIDEOS.length)];
+            selectedVideo = DANCE_VIDEOS[Math.floor(Math.random() * DANCE_VIDEOS.length)];
             
             player = new YT.Player('player', {
-                videoId: randomVideo.id,
+                videoId: selectedVideo.id,
                 playerVars: {
                     'autoplay': 1,
                     'controls': 0,    
                     'disablekb': 1,  
                     'modestbranding': 1,
                     'rel': 0,
-                    'start': randomVideo.start,
-                    'mute': 1, // Muted keeps the browser happy to allow autoplay
+                    'start': selectedVideo.start,
+                    'mute': 1, 
                     'playsinline': 1
                 },
                 events: {
@@ -138,18 +141,15 @@
         }
 
         function onPlayerReady(event) {
-            // CRITICAL FIX: Explicitly inject browser permission tokens into the generated frame
             const iframe = document.getElementById('player');
             if (iframe) {
                 iframe.setAttribute('allow', 'autoplay; encrypted-media');
             }
 
-            // Fallback play loop to force video engine kickstart
             if (player && typeof player.playVideo === 'function') {
                 player.playVideo();
             }
 
-            // Unmute execution loop on user gesture
             window.addEventListener('click', () => {
                 if(!hasInteracted && player && typeof player.unMute === 'function') {
                     player.unMute();
@@ -180,24 +180,33 @@
             videoContainer.style.display = "block";
             trapShield.style.display = "block"; 
             
-            // Core Page Listeners
             window.addEventListener('keydown', triggerFail);
             window.addEventListener('mousemove', triggerFail);
             window.addEventListener('mousedown', triggerFail);
             
-            // Exact Layer Overlay Listeners
             trapShield.addEventListener('mousemove', triggerFail);
             trapShield.addEventListener('mousedown', triggerFail);
+
+            // CRITICAL FIX: If a custom duration is set, start a countdown for success
+            if (selectedVideo.duration > 0) {
+                successTimeout = setTimeout(() => {
+                    if (tripwireActive) {
+                        triggerSuccess();
+                    }
+                }, selectedVideo.duration * 1000);
+            }
         }
 
         function handlePlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED && tripwireActive) {
+            // Fallback: If duration is 0, wait for the actual video to hit the natural ENDED status
+            if (event.data === YT.PlayerState.ENDED && selectedVideo.duration === 0 && tripwireActive) {
                 triggerSuccess();
             }
         }
 
         function triggerSuccess() {
             tripwireActive = false;
+            clearTimeout(successTimeout); // Clear custom stopwatch if it hasn't fired yet
             
             window.removeEventListener('keydown', triggerFail);
             window.removeEventListener('mousemove', triggerFail);
@@ -219,6 +228,8 @@
             if (!tripwireActive) return;
             
             tripwireActive = false;
+            clearTimeout(successTimeout); // Instantly cancel the victory timer on failure
+            
             statusMessage.innerText = "ACCESS DENIED. REBOOTING SYSTEM...";
             timerDisplay.innerText = "FAIL";
             videoContainer.style.display = "none";
