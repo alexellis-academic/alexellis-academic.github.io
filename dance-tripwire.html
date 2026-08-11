@@ -217,6 +217,7 @@
 
         tripwireActive = false;
         clearTimeout(successTimeout);
+        localStorage.removeItem("tripwire_passed");
 
         statusMessage.innerText = "ACCESS DENIED. REBOOTING SYSTEM...";
         timerDisplay.innerText = "FAIL";
