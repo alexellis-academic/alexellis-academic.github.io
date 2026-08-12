@@ -35,164 +35,142 @@
 
   <link rel="stylesheet" href="style.css">
    <style>
-    /* Aristocratic Velvet & Emerald Invitation Theme */
+    /* Dark Academia / Research Archive Aesthetic */
     body {
-      background-color: #030d06; /* Deep, opaque velvet green */
-      color: #9ee6b3; /* Soft sage illumination */
-      font-family: 'Georgia', 'Times New Roman', serif;
+      background-color: #0c0f0d; /* Dark obsidian ink */
+      color: #d1c7bd; /* Aged, dim parchment text */
+      font-family: 'Courier New', Courier, Courier Prime, monospace; /* Library typewriter style */
       margin: 0;
       padding: 40px 20px;
       overflow-x: hidden;
-      /* Very subtle regal watermark lines */
-      background-image: linear-gradient(rgba(10, 41, 20, 0.2) 1px, transparent 1px);
-      background-size: 100% 30px;
+      /* Microscopic dot-matrix graph paper pattern used in research logs */
+      background-image: radial-gradient(rgba(209, 199, 189, 0.03) 1px, transparent 0);
+      background-size: 24px 24px;
     }
 
-    /* Formal Invitation Card Wrapper */
+    /* Library Dossier / Card Catalog Folder Layout */
     .site {
-      max-width: 680px;
+      max-width: 700px;
       margin: 40px auto;
-      padding: 60px 50px;
-      background: #041208; /* Slightly lighter inner card contrast */
-      /* Complex, elegant formal framing layout */
-      border: 1px solid #2b6e43;
-      outline: 4px double #1f5231;
-      outline-offset: -12px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 0, 0, 0.6);
+      padding: 50px 60px;
+      background: #111613; /* Slightly warmer dark paper tone */
+      border: 1px solid #2e3631; /* Replicates a worn folio edge */
+      border-left: 4px solid #63503c; /* Binding spine indicator */
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
       position: relative;
-      text-align: center; /* Invitation typography is historically centered */
     }
 
-    /* Elegant Formal Decree Header */
+    /* Card Catalog Metadata Stamp */
     .eyebrow {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.6em;
-      color: #4cd17a;
-      margin-bottom: 30px;
+      letter-spacing: 0.3em;
+      color: #9c7b56; /* Editorial pencil crayon or sepia toner */
+      margin-bottom: 25px;
+      border-bottom: 1px dashed rgba(156, 123, 86, 0.3);
+      padding-bottom: 5px;
+      display: inline-block;
     }
 
-    /* Sovereign Gothic Header */
+    /* Title formatted like a formal thesis manuscript */
     h1 {
-      font-size: 3rem;
-      font-family: 'Cinzel', 'Didot', 'Georgia', serif;
+      font-size: 2.2rem;
+      font-family: 'Georgia', 'Times New Roman', serif; /* Shift to formal text for title */
       font-weight: normal;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: #d1f7de;
+      color: #e6ded6;
       margin-top: 0;
-      margin-bottom: 10px;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
     }
 
     h2 {
-      font-size: 1.1rem;
-      color: #5ea876;
+      font-size: 0.95rem;
+      color: #7a857e; /* Faded type ribbon */
       font-style: italic;
       font-weight: normal;
-      letter-spacing: 1px;
       margin-top: 0;
-      margin-bottom: 40px;
+      margin-bottom: 35px;
     }
-
-    /* Custom Wax Seal Divider */
-    .seal-divider {
-      width: 12px;
-      height: 12px;
-      background-color: #8c2337; /* Deep oxblood wax color */
-      border-radius: 50%;
-      margin: 25px auto;
-      box-shadow: 0 0 6px rgba(140, 35, 55, 0.6);
-      position: relative;
-    }
-    .seal-divider::before, .seal-divider::after {
-      content: "";
-      position: absolute;
-      top: 5px;
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, #2b6e43);
-    }
-    .seal-divider::before { right: 20px; background: linear-gradient(to left, #2b6e43, transparent); }
-    .seal-divider::after { left: 20px; }
 
     p {
-      line-height: 1.9;
-      color: #aae0bc;
-      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #c4bbb0;
+      font-size: 0.95rem;
       margin-bottom: 25px;
     }
 
-    /* Aristocratic List Setup */
+    /* Research Log / Field Note Bullet Styling */
     .email-prompts {
-      margin: 30px auto;
-      padding: 0;
-      list-style-type: none; /* Removed bullet points entirely for formal layout */
-      max-width: 550px;
+      margin: 25px 0 35px 0;
+      padding-left: 20px;
+      list-style-type: none;
     }
     
     .email-prompts li {
-      margin-bottom: 16px;
-      color: #c2eed0;
-      font-size: 1rem;
+      margin-bottom: 14px;
+      color: #d1c7bd;
+      font-size: 0.95rem;
       line-height: 1.6;
-      /* Subtle formal ornament separating listed prompts */
-      border-bottom: 1px dashed rgba(43, 110, 67, 0.2);
-      padding-bottom: 12px;
-    }
-    .email-prompts li:last-child {
-      border-bottom: none;
+      position: relative;
     }
 
-    /* Deep Velvet Styled Iframe Overlay */
+    /* Adds a customized academic citation bracket "[x]" before list items */
+    .email-prompts li::before {
+      content: "•";
+      color: #9c7b56;
+      position: absolute;
+      left: -20px;
+    }
+
+    /* Microfilm / Microfiche framing for the iframe content */
     iframe {
-      border: 1px solid #1f5231 !important;
-      background: #010602;
-      filter: sepia(35%) hue-rotate(90deg) contrast(105%) brightness(90%);
-      margin: 40px 0;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+      border: 1px solid #2e3631 !important;
+      background: #080a09;
+      filter: sepia(70%) contrast(120%) brightness(85%); /* Forces microfiche archive yellow/emerald tint */
+      margin: 35px 0;
+      box-shadow: inset 0 0 20px #000;
     }
 
-    /* Silk interior highlighting */
+    /* Ink-stained highlight style */
     ::selection {
-      background: #174024;
-      color: #d1f7de;
+      background: #3d3328; /* Dried walnut ink tint */
+      color: #f7f1eb;
     }
 
-    /* Script Links */
+    /* Cryptic Editorial Reference Links */
     a {
-      color: #d1f7de;
+      color: #e6ded6;
       text-decoration: none;
-      border-bottom: 1px solid #2b6e43;
+      border-bottom: 1px solid #9c7b56;
       transition: all 0.2s ease;
-      font-style: italic;
+      font-weight: bold;
     }
 
     a:hover {
-      color: #4cd17a;
-      border-bottom: 1px solid #4cd17a;
-      text-shadow: 0 0 5px rgba(76, 209, 122, 0.4);
-      cursor: cell;
+      color: #9c7b56;
+      border-bottom: 1px dashed #e6ded6;
+      background-color: rgba(156, 123, 86, 0.1);
+      cursor: help;
     }
 
+    /* Formal Academic Closing Sign-off */
     .signature {
-      font-family: 'Times New Roman', serif;
+      font-family: 'Georgia', serif;
       font-style: italic;
-      font-size: 1.3rem;
-      letter-spacing: 1px;
+      font-size: 1.1rem;
       margin-top: 40px;
-      color: #d1f7de;
+      color: #e6ded6;
     }
 
-    /* Hidden decree hidden perfectly in the margins */
+    /* Hidden marginalia note—blends exactly into the card stock background */
     .hidden-transmission {
-      color: #041208; /* Matches the inner card background perfectly */
-      font-size: 0.75rem;
+      color: #111613; 
+      font-size: 0.7rem;
       display: block;
       margin-top: 50px;
       user-select: all;
       font-family: monospace;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
     }
   </style>
 </head>
