@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
       lockFeedback.style.color = "green";
       lockFeedback.textContent = "Frequency matched. Connecting to localized signal...";
-      sessionStorage.setItem("secretUnlocked", "true");
+      localStorage.setItem("secretUnlocked", "true");
       localStorage.removeItem("puzzle_attempts"); // Clear failures on success
 
       setTimeout(() => {
