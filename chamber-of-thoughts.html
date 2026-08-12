@@ -34,155 +34,143 @@
   </script>
 
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <nav class="top-nav" aria-label="Main navigation">
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-    </div>
-
-    <div class="nav-controls">
-      <div class="nav-dots" aria-hidden="true">
-        <span class="dot-light"></span>
-        <span class="dot-medium"></span>
-        <span class="dot-dark"></span>
-      </div>
-
-      <button
-        class="theme-toggle"
-        id="theme-toggle"
-        type="button"
-        aria-label="Switch to dark mode"
-        aria-pressed="false"
-      >
-        <span class="theme-icon" aria-hidden="true">☾</span>
-      </button>
-    </div>
-  </nav>
-  
-
-  <main class="site">
-    <header class="page-header">
-      <style>
-    /* Core Terminal & Glitch Aesthetic */
+  <style>
+    /* Regal Occult & Deep Emerald Aesthetic */
     body {
-      background-color: #030303;
-      color: #00ff66;
-      font-family: 'Courier New', Courier, monospace;
+      background-color: #020b05; /* Deep, velvet emerald-black */
+      color: #7df9a6; /* Vibrant sage/mint glow */
+      font-family: 'Georgia', 'Times New Roman', serif;
       margin: 0;
-      padding: 20px;
+      padding: 30px;
       overflow-x: hidden;
-      /* CRT monitor scanlines */
-      background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
-      background-size: 100% 4px, 6px 100%;
+      /* Elegant, subtle damask-like texture lines */
+      background-image: linear-gradient(rgba(4, 28, 13, 0.4) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(4, 28, 13, 0.4) 1px, transparent 1px);
+      background-size: 20px 20px;
     }
 
-    /* Unstable, drifting container layout */
+    /* Sovereign, shifting container */
     .site {
       max-width: 750px;
-      margin: 40px auto;
-      padding: 40px;
-      border: 1px dashed #00ff66;
-      box-shadow: 0 0 20px rgba(0, 255, 102, 0.1);
+      margin: 50px auto;
+      padding: 50px;
+      border: 3px double #3fa869; /* Royal double-line border */
+      box-shadow: inset 0 0 30px rgba(125, 249, 166, 0.05), 0 0 40px rgba(0, 0, 0, 0.8);
+      background: rgba(2, 11, 5, 0.95);
       position: relative;
-      /* Subtle screen tilt makes the user doubt their display */
-      animation: screenDrift 12s ease-in-out infinite;
     }
 
-    /* Cryptic blinking prompt */
+    /* Stately, drifting header element */
+    .page-header {
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Weird interaction: The text shifts away slightly when hovered, making it hard to look at directly */
+    .site:hover .page-header {
+      transform: translateX(8px);
+    }
+
+    /* Elegant, breathing decree text */
     .eyebrow {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       text-transform: uppercase;
-      letter-spacing: 0.6em;
-      color: #ff0055;
-      animation: terminalBlink 1.2s infinite steps(1);
+      letter-spacing: 0.7em;
+      color: #adffd2;
+      text-align: center;
+      margin-bottom: 25px;
+      animation: royalBreathe 4s ease-in-out infinite;
     }
 
-    /* Chromatic Aberration Glitch Title */
+    /* Baroque / Gothic Styled Title */
     h1 {
-      font-size: 3.2rem;
+      font-size: 3.5rem;
+      font-family: 'Cinzel', 'Georgia', serif;
+      font-weight: normal;
+      text-align: center;
       text-transform: uppercase;
-      text-shadow: 3px 3px #ff0055, -3px -3px #00ffff;
-      letter-spacing: -2px;
+      letter-spacing: 2px;
+      color: #bffff0;
+      /* Ghostly, overlapping regal shadow */
+      text-shadow: 2px 2px 0px #134e2c, -1px -1px 4px rgba(125, 249, 166, 0.6);
+      margin-top: 0;
       margin-bottom: 5px;
     }
 
     h2 {
       font-size: 1.1rem;
-      color: #777;
+      color: #52946c;
       font-style: italic;
       font-weight: normal;
-      margin-top: 0;
+      text-align: center;
+      letter-spacing: 1px;
+      margin-bottom: 40px;
     }
 
     p {
-      line-height: 1.7;
-      color: #b3ffd1;
+      line-height: 1.8;
+      color: #9effc1;
+      font-size: 1.1rem;
     }
 
-    /* Destabilized list style */
+    /* Aristocratic custom list marker */
     .email-prompts {
-      margin-top: 20px;
-      padding-left: 20px;
-      list-style-type: "➢ ";
+      margin-top: 25px;
+      margin-bottom: 35px;
+      padding-left: 25px;
+      list-style-type: "❖ "; /* Royal heraldry diamond symbol */
     }
     
     .email-prompts li {
-      margin-bottom: 8px;
-      color: #aaeebb;
+      margin-bottom: 12px;
+      color: #b2ffd0;
     }
 
-    /* Distorted iframe framing */
+    /* Elegant frame overlay on iframe */
     iframe {
-      border: 3px double #00ff66 !important;
-      background: #000;
-      filter: grayscale(20%) contrast(110%) brightness(95%);
-      margin: 35px 0;
-      box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+      border: 1px solid #3fa869 !important;
+      background: #010603;
+      filter: sepia(40%) hue-rotate(80deg) contrast(110%); /* Tinting iframe content emerald */
+      margin: 40px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
 
-    /* Cryptic links */
+    /* Velvet / Silk highlight color */
+    ::selection {
+      background: #175432;
+      color: #bffff0;
+    }
+
+    /* Cryptic royal links */
     a {
-      color: #00ffff;
+      color: #bffff0;
       text-decoration: none;
-      border-bottom: 1px dotted #00ffff;
-      transition: all 0.2s ease;
+      border-bottom: 1px solid #3fa869;
+      transition: all 0.3s ease;
     }
 
     a:hover {
-      color: #ff0055;
-      border-bottom: 1px dashed #ff0055;
-      background-color: rgba(255, 0, 85, 0.15);
-      cursor: help;
+      color: #7df9a6;
+      border-bottom: 1px solid #7df9a6;
+      text-shadow: 0 0 8px rgba(125, 249, 166, 0.8);
+      cursor: cell; /* Changes cursor to a precise targeting crosshair */
     }
 
-    /* Aggressive selection inversion */
-    ::selection {
-      background: #ff0055;
-      color: #030303;
-    }
-
-    /* Secret hidden text asset - invisible until highlighted */
+    /* Hidden decree at the absolute foot of the court */
     .hidden-transmission {
-      color: #030303; /* Matches background exactly */
-      font-size: 0.75rem;
+      color: #020b05; /* Perfectly matches background */
+      font-size: 0.8rem;
       display: block;
-      margin-top: 30px;
+      text-align: center;
+      margin-top: 50px;
       user-select: all;
+      font-family: monospace;
+      letter-spacing: 1px;
     }
 
-    /* Animations */
-    @keyframes terminalBlink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    @keyframes screenDrift {
-      0%, 100% { transform: rotate(0deg) translateY(0px); }
-      33% { transform: rotate(0.3deg) translateY(1px); }
-      66% { transform: rotate(-0.2deg) translateY(-1px); }
+    /* Softly swelling glow animation */
+    @keyframes royalBreathe {
+      0%, 100% { opacity: 0.4; text-shadow: 0 0 2px rgba(125,249,166,0); }
+      50% { opacity: 1; text-shadow: 0 0 10px rgba(125, 249, 166, 0.5); }
     }
   </style>
 </head>
