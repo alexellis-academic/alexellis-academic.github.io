@@ -60,6 +60,133 @@
       </button>
     </div>
   </nav>
+  
+
+  <main class="site">
+    <header class="page-header">
+      <style>
+    /* Core Terminal & Glitch Aesthetic */
+    body {
+      background-color: #030303;
+      color: #00ff66;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      overflow-x: hidden;
+      /* CRT monitor scanlines */
+      background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+      background-size: 100% 4px, 6px 100%;
+    }
+
+    /* Unstable, drifting container layout */
+    .site {
+      max-width: 750px;
+      margin: 40px auto;
+      padding: 40px;
+      border: 1px dashed #00ff66;
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.1);
+      position: relative;
+      /* Subtle screen tilt makes the user doubt their display */
+      animation: screenDrift 12s ease-in-out infinite;
+    }
+
+    /* Cryptic blinking prompt */
+    .eyebrow {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6em;
+      color: #ff0055;
+      animation: terminalBlink 1.2s infinite steps(1);
+    }
+
+    /* Chromatic Aberration Glitch Title */
+    h1 {
+      font-size: 3.2rem;
+      text-transform: uppercase;
+      text-shadow: 3px 3px #ff0055, -3px -3px #00ffff;
+      letter-spacing: -2px;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      color: #777;
+      font-style: italic;
+      font-weight: normal;
+      margin-top: 0;
+    }
+
+    p {
+      line-height: 1.7;
+      color: #b3ffd1;
+    }
+
+    /* Destabilized list style */
+    .email-prompts {
+      margin-top: 20px;
+      padding-left: 20px;
+      list-style-type: "➢ ";
+    }
+    
+    .email-prompts li {
+      margin-bottom: 8px;
+      color: #aaeebb;
+    }
+
+    /* Distorted iframe framing */
+    iframe {
+      border: 3px double #00ff66 !important;
+      background: #000;
+      filter: grayscale(20%) contrast(110%) brightness(95%);
+      margin: 35px 0;
+      box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+    }
+
+    /* Cryptic links */
+    a {
+      color: #00ffff;
+      text-decoration: none;
+      border-bottom: 1px dotted #00ffff;
+      transition: all 0.2s ease;
+    }
+
+    a:hover {
+      color: #ff0055;
+      border-bottom: 1px dashed #ff0055;
+      background-color: rgba(255, 0, 85, 0.15);
+      cursor: help;
+    }
+
+    /* Aggressive selection inversion */
+    ::selection {
+      background: #ff0055;
+      color: #030303;
+    }
+
+    /* Secret hidden text asset - invisible until highlighted */
+    .hidden-transmission {
+      color: #030303; /* Matches background exactly */
+      font-size: 0.75rem;
+      display: block;
+      margin-top: 30px;
+      user-select: all;
+    }
+
+    /* Animations */
+    @keyframes terminalBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes screenDrift {
+      0%, 100% { transform: rotate(0deg) translateY(0px); }
+      33% { transform: rotate(0.3deg) translateY(1px); }
+      66% { transform: rotate(-0.2deg) translateY(-1px); }
+    }
+  </style>
+</head>
+<body>
 
   <main class="site">
     <header class="page-header">
@@ -67,26 +194,33 @@
       <h1>Chamber of Thoughts</h1>
       <h2>congrats. u've arrived at my chamber of thoughts</h2>
       <p>read unresolved threads im currently ruminating on here</p>
-    <iframe src="https://www.are.na/alex-ellis/unresolved-threads/embed" width="100%" height="500" style="border: none;" title="Unresolved Threads"></iframe>
-    <p>you also get carte blanche to email me as informally or hyper-formally as you'd like. <br>
-    just make the subject line "tripwire: [your actual subject]" so I know you found this page & you're not a bot. 
-    if you've met me before, tell me where. i've met a LOT of people.
-    <br>
-    i'm always thinking. I welcome people who want to think alongside me.
-    <br>
-    non-exhaustive list of prompt ideas for emails:
-    
-    - requests to chat over zoom
-    - thoughts on a thread i mentioned
-    - email with a link to a funny youtube short and "ur cool" + [ur signature] written under it etc
-    - a challenge link to a chess match / other online games
-    - invitations to events(mississauga and toronto area = more likely to say yes)
-    - papers / books you think i'd like
-    - weird internet tools you found
-    <br>
-    <a href="https://jisho.org/search/4649">４６４９ね</a>,
-    <br>
-    - Alex
+      
+      <iframe src="https://www.are.na/alex-ellis/unresolved-threads/embed" width="100%" height="500" style="border: none;" title="Unresolved Threads"></iframe>
+      
+      <p>you also get carte blanche to email me as informally or hyper-formally as you'd like. <br>
+      just make the subject line "tripwire: [your actual subject]" so I know you found this page & you're not a bot. 
+      if you've met me before, tell me where. i've met a LOT of people.
+      <br><br>
+      i'm always thinking. I welcome people who want to think alongside me.
+      <br><br>
+      non-exhaustive list of prompt ideas for emails:
+      </p>
+      
+      <ul class="email-prompts">
+        <li>requests to chat over zoom</li>
+        <li>thoughts on a thread i mentioned</li>
+        <li>email with a link to a funny youtube short and "ur cool" + [ur signature] written under it etc</li>
+        <li>a challenge link to a chess match / other online games</li>
+        <li>invitations to events (mississauga and toronto area = more likely to say yes)</li>
+        <li>papers / books you think i'd like</li>
+        <li>weird internet tools you found</li>
+      </ul>
+
+      <p>
+        <a href="https://jisho.org/search/4649">４６４９ね</a>
+        <br><br>
+        - Alex
+      </p>
       
       <a href="mailto:alex.ellis@mail.utoronto.ca">
         alex(dot)ellis@mail(dot)utoronto.ca
