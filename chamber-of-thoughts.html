@@ -35,49 +35,112 @@
 
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Dark Academia / Research Archive Aesthetic */
-    body {
-      background-color: #0c0f0d; /* Dark obsidian ink */
-      color: #d1c7bd; /* Aged, dim parchment text */
-      font-family: 'Courier New', Courier, Courier Prime, monospace; /* Library typewriter style */
-      margin: 0;
-      padding: 40px 20px;
-      overflow-x: hidden;
-      /* Microscopic dot-matrix graph paper pattern used in research logs */
-      background-image: radial-gradient(rgba(209, 199, 189, 0.03) 1px, transparent 0);
-      background-size: 24px 24px;
+    /* Dark Academia / Gooey Fluid Variables */
+    :root {
+      --bg-color: #0c0f0d;     /* Deep ink black */
+      --color-1: #211c16;      /* Diluted walnut stain */
+      --color-2: #4f3f2e;      /* Aged sepia */
+      --color-3: #1a241e;      /* Oxford moss green */
     }
 
-    /* Library Dossier / Card Catalog Folder Layout */
+    body {
+      background-color: var(--bg-color);
+      color: #d1c7bd; /* Aged parchment text */
+      font-family: 'Courier New', Courier, Courier Prime, monospace;
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    /* ========================================================
+       THE SECRET SAUCE: GOOEY LIQUID BACKGROUND SYSTEM
+       ======================================================== */
+    .liquid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: var(--bg-color);
+      overflow: hidden;
+      
+      /* Merges the shifting alpha channels together into a thick liquid */
+      filter: blur(50px) contrast(35);
+    }
+
+    /* Base styling for all moving academic ink blobs */
+    .blob {
+      position: absolute;
+      mix-blend-mode: screen;
+      opacity: 0.7;
+    }
+
+    /* Individual blob behaviors, sizes, and colors */
+    .blob-1 {
+      width: 600px;
+      height: 600px;
+      background: var(--color-2);
+      top: -10%;
+      left: -10%;
+      animation: liquid-move 25s infinite alternate, liquid-morph 9s infinite ease-in-out;
+    }
+
+    .blob-2 {
+      width: 700px;
+      height: 700px;
+      background: var(--color-3);
+      bottom: -15%;
+      right: -5%;
+      animation: liquid-move-reverse 30s infinite alternate, liquid-morph 14s infinite ease-in-out;
+    }
+
+    .blob-3 {
+      width: 500px;
+      height: 500px;
+      background: var(--color-1);
+      top: 35%;
+      left: 25%;
+      animation: liquid-move 18s infinite alternate, liquid-morph 11s infinite ease-in-out;
+    }
+
+    /* Keyframes for morphing the shape contours organically */
+    @keyframes liquid-morph {
+      0%, 100% {
+        border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+      }
+      33% {
+        border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%;
+      }
+      66% {
+        border-radius: 28% 72% 37% 63% / 37% 53% 47% 63%;
+      }
+    }
+
+    /* Keyframes for drifting the liquid around the screen */
+    @keyframes liquid-move {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(180px, 90px) rotate(360deg); }
+    }
+
+    @keyframes liquid-move-reverse {
+      0% { transform: translate(0, 0) rotate(360deg); }
+      100% { transform: translate(-120px, -170px) rotate(0deg); }
+    }
+
+    /* ========================================================
+       PORTFOLIO INNER DOSSIER CONTAINER
+       ======================================================== */
     .site {
       max-width: 700px;
       margin: 40px auto;
       padding: 50px 60px;
-      background: #111613; /* Warm dark paper tone */
-      border: 1px solid #2e3631; /* Worn folio edge */
-      border-left: 4px solid #63503c; /* Binding spine indicator */
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+      /* Semi-transparent so the liquid crawls elegantly under your notes */
+      background: rgba(17, 22, 19, 0.85); 
+      backdrop-filter: blur(5px); /* Softly diffuses the fluid behind it */
+      border: 1px solid #2e3631; 
+      border-left: 4px solid #63503c; /* Folio notebook spine */
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9);
       position: relative;
-      z-index: 1;
-    }
-
-    /* UPDATED: Liquid Moire Animation Layer */
-    .site::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: -1;
-      opacity: 0.15; /* Visibility of the fluid movement */
-      background: 
-        radial-gradient(circle at 50% 50%, transparent 40%, #111613 70%),
-        repeating-radial-gradient(circle at 10% 20%, transparent 0, transparent 15px, rgba(209, 199, 189, 0.4) 20px, transparent 25px),
-        repeating-radial-gradient(circle at 90% 80%, transparent 0, transparent 20px, rgba(209, 199, 189, 0.3) 26px, transparent 32px);
-      background-blend-mode: multiply;
-      background-size: 100% 100%, 100% 100%, 100% 100%;
-      pointer-events: none;
-      
-      /* Runs the continuous liquid distortion loop */
-      animation: liquidShift 20s ease-in-out infinite alternate;
     }
 
     /* Card Catalog Metadata Stamp */
@@ -85,14 +148,14 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.3em;
-      color: #9c7b56; /* Editorial pencil crayon or sepia toner */
+      color: #9c7b56; 
       margin-bottom: 25px;
       border-bottom: 1px dashed rgba(156, 123, 86, 0.3);
       padding-bottom: 5px;
       display: inline-block;
     }
 
-    /* Title formatted like a formal thesis manuscript */
+    /* Formal manuscript layout text styling */
     h1 {
       font-size: 2.2rem;
       font-family: 'Georgia', 'Times New Roman', serif;
@@ -105,7 +168,7 @@
 
     h2 {
       font-size: 0.95rem;
-      color: #7a857e; /* Faded type ribbon */
+      color: #7a857e;
       font-style: italic;
       font-weight: normal;
       margin-top: 0;
@@ -119,7 +182,7 @@
       margin-bottom: 25px;
     }
 
-    /* Research Log / Field Note Bullet Styling */
+    /* Field Note Bullet Formatting */
     .email-prompts {
       margin: 25px 0 35px 0;
       padding-left: 20px;
@@ -134,7 +197,6 @@
       position: relative;
     }
 
-    /* Customized academic bullet points */
     .email-prompts li::before {
       content: "•";
       color: #9c7b56;
@@ -142,22 +204,21 @@
       left: -20px;
     }
 
-    /* Microfilm / Microfiche framing for the iframe content */
+    /* Microfilm frame window overlay for the iframe */
     iframe {
       border: 1px solid #2e3631 !important;
       background: #080a09;
-      filter: sepia(70%) contrast(120%) brightness(85%); /* Forces microfiche archive yellow/emerald tint */
+      filter: sepia(70%) contrast(120%) brightness(85%); /* Fits the amber/sepia palette */
       margin: 35px 0;
       box-shadow: inset 0 0 20px #000;
     }
 
-    /* Ink-stained highlight style */
+    /* Dried walnut ink highlighting */
     ::selection {
-      background: #3d3328; /* Dried walnut ink tint */
+      background: #3d3328;
       color: #f7f1eb;
     }
 
-    /* Cryptic Editorial Reference Links */
     a {
       color: #e6ded6;
       text-decoration: none;
@@ -173,7 +234,6 @@
       cursor: help;
     }
 
-    /* Formal Academic Closing Sign-off */
     .signature {
       font-family: 'Georgia', serif;
       font-style: italic;
@@ -182,9 +242,9 @@
       color: #e6ded6;
     }
 
-    /* Hidden marginalia note—blends exactly into the card stock background */
+    /* Hidden marginalia note */
     .hidden-transmission {
-      color: #111613; 
+      color: rgba(17, 22, 19, 0.1); 
       font-size: 0.7rem;
       display: block;
       margin-top: 50px;
@@ -192,25 +252,16 @@
       font-family: monospace;
       letter-spacing: 1px;
     }
-
-    /* NEW: Continuous smooth liquid ripple distortion */
-    @keyframes liquidShift {
-      0% {
-        background-position: 0% 0%, 0% 0%, 0% 0%;
-        background-size: 100% 100%, 100% 100%, 100% 100%;
-      }
-      50% {
-        background-position: 5px -10px, -20px 15px, 15px -5px;
-        background-size: 100% 100%, 105% 105%, 95% 98%;
-      }
-      100% {
-        background-position: -5px 15px, 25px -20px, -10px 10px;
-        background-size: 100% 100%, 98% 95%, 103% 105%;
-      }
-    }
   </style>
 </head>
 <body>
+
+  <!-- Gooey metaball layer injected at the very root of the canvas -->
+  <div class="liquid-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
 
   <main class="site">
     <header class="page-header">
