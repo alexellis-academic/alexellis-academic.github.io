@@ -208,13 +208,14 @@
     if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
       lockFeedback.style.color = "green";
       lockFeedback.textContent = "Frequency matched. Connecting to localized signal...";
-      sessionStorage.setItem("secretUnlocked", "true");
+      localStorage.setItem("chamber_unlocked", "true");
       localStorage.removeItem("puzzle_attempts"); // Clear failures on success
 
       setTimeout(() => {
         window.location.href = "chamber-of-thoughts.html";
       }, 1500);
-    } else {
+    } 
+    else {
       // 2. Track failed attempts
       let attempts = parseInt(localStorage.getItem("puzzle_attempts") || "0") + 1;
       localStorage.setItem("puzzle_attempts", attempts);
