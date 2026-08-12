@@ -201,7 +201,8 @@
           lockFeedback.textContent =
             "Frequency matched. Connecting to localized signal...";
 
-          sessionStorage.setItem("secretUnlocked", "true");
+          // Set the "puzzle solved" flag
+          localStorage.setItem("chamber_unlocked", "true");
 
           setTimeout(() => {
             window.location.href = "chamber-of-thoughts.html";
