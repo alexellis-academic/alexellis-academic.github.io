@@ -19,102 +19,136 @@
 
   <style>
     :root {
-      --bg-color: #0c0f0d;
-      --color-1: #7a5a3a;
-      --color-2: #4f6b52;
-      --color-3: #2f3f34;
-    }
+  --bg-color: #020814;      /* Deep midnight blue */
+  --color-1: #0b355d;       /* Dark ocean blue */
+  --color-2: #0f4c81;       /* Medium Atlantic blue */
+  --color-3: #0d6a7a;       /* Teal current */
+  --color-4: #162447;       /* Deeper shadow blue */
+}
 
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      background: var(--bg-color);
-      overflow-x: hidden;
-    }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg-color);
+  overflow-x: hidden;
+}
 
-    body {
-      color: #d1c7bd;
-      font-family: Courier, "Courier New", monospace;
-      position: relative;
-    }
+body {
+  color: #d1c7bd;
+  font-family: Courier, "Courier New", monospace;
+  position: relative;
+}
 
-    .liquid-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-      filter: blur(45px) contrast(18);
-    }
+/* Full-screen liquid ocean layer */
+.liquid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* Softer blend for a watery feel */
+  filter: blur(55px) contrast(20) saturate(130%);
+  background: radial-gradient(circle at 20% 20%, #06152d 0, #020814 45%),
+              radial-gradient(circle at 80% 80%, #031021 0, #020814 50%);
+}
 
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.9;
-      mix-blend-mode: screen;
-      will-change: transform, border-radius;
-    }
+/* All blobs: large, soft shapes */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.85;
+  mix-blend-mode: screen;
+  will-change: transform, border-radius;
+}
 
-    .blob-1 {
-      width: 420px;
-      height: 420px;
-      left: 5%;
-      top: 10%;
-      background: var(--color-1);
-      animation: drift1 18s ease-in-out infinite alternate, morph 8s ease-in-out infinite;
-    }
+/* Big, slow “currents” */
+.blob-1 {
+  width: 700px;
+  height: 700px;
+  left: -10%;
+  top: -10%;
+  background: var(--color-1);
+  animation: drift1 32s ease-in-out infinite alternate,
+             morph 16s ease-in-out infinite;
+}
 
-    .blob-2 {
-      width: 520px;
-      height: 520px;
-      right: 2%;
-      bottom: 8%;
-      background: var(--color-2);
-      animation: drift2 24s ease-in-out infinite alternate, morph 11s ease-in-out infinite;
-    }
+.blob-2 {
+  width: 900px;
+  height: 900px;
+  right: -15%;
+  bottom: -20%;
+  background: var(--color-2);
+  animation: drift2 40s ease-in-out infinite alternate,
+             morph 20s ease-in-out infinite;
+}
 
-    .blob-3 {
-      width: 360px;
-      height: 360px;
-      left: 38%;
-      top: 36%;
-      background: var(--color-3);
-      animation: drift3 20s ease-in-out infinite alternate, morph 9s ease-in-out infinite;
-    }
+.blob-3 {
+  width: 650px;
+  height: 650px;
+  left: 20%;
+  top: 40%;
+  background: var(--color-3);
+  animation: drift3 36s ease-in-out infinite alternate,
+             morph 18s ease-in-out infinite;
+}
 
-    @keyframes drift1 {
-      from { transform: translate(0, 0) rotate(0deg); }
-      to { transform: translate(120px, 90px) rotate(180deg); }
-    }
+/* Optional fourth blob for more depth */
+.blob-4 {
+  width: 800px;
+  height: 800px;
+  left: 50%;
+  top: -25%;
+  background: var(--color-4);
+  animation: drift4 48s ease-in-out infinite alternate,
+             morph 22s ease-in-out infinite;
+}
 
-    @keyframes drift2 {
-      from { transform: translate(0, 0) rotate(0deg); }
-      to { transform: translate(-140px, -100px) rotate(-180deg); }
-    }
+@keyframes drift1 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(140px, 120px) scale(1.1); }
+}
 
-    @keyframes drift3 {
-      from { transform: translate(0, 0) scale(1); }
-      to { transform: translate(80px, -70px) scale(1.12); }
-    }
+@keyframes drift2 {
+  from { transform: translate(0, 0) scale(1.05); }
+  to   { transform: translate(-160px, -140px) scale(1.15); }
+}
 
-    @keyframes morph {
-      0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
-      33% { border-radius: 62% 38% 46% 54% / 35% 55% 45% 65%; }
-      66% { border-radius: 36% 64% 38% 62% / 60% 30% 70% 40%; }
-    }
+@keyframes drift3 {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(120px, -100px) scale(1.12); }
+}
 
-    .site {
-      position: relative;
-      z-index: 1;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 50px 60px;
-      background: rgba(17, 22, 19, 0.85);
-      backdrop-filter: blur(5px);
-      border: 1px solid #2e3631;
-      border-left: 4px solid #63503c;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9);
-    }
+@keyframes drift4 {
+  from { transform: translate(0, 0) scale(1.05); }
+  to   { transform: translate(-120px, 120px) scale(1.18); }
+}
+
+/* Gentle, slow morphing for an underwater feel */
+@keyframes morph {
+  0%, 100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
+  33% {
+    border-radius: 60% 40% 52% 48% / 50% 60% 40% 50%;
+  }
+  66% {
+    border-radius: 35% 65% 40% 60% / 60% 35% 65% 40%;
+  }
+}
+
+/* Your content container stays above the ocean */
+.site {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 50px 60px;
+  background: rgba(5, 10, 16, 0.9); /* Slightly more blue to match ocean */
+  backdrop-filter: blur(6px);
+  border: 1px solid #1a252e;
+  border-left: 4px solid #3f647b;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9);
+}
 
     .eyebrow { color: #9c7b56; letter-spacing: 0.3em; text-transform: uppercase; }
     h1 { font-family: Georgia, serif; font-size: 2.2rem; color: #e6ded6; font-weight: normal; }
@@ -145,11 +179,12 @@
 </head>
 <body>
 
-  <div class="liquid-bg" aria-hidden="true">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-  </div>
+<div class="liquid-bg" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
 
   <main class="site">
     <header class="page-header">
