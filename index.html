@@ -104,125 +104,125 @@
   </ul>
 </div>
       
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const secretFern = document.getElementById("secret-fern");
-  const targetIntro = document.getElementById("target-intro");
-  const hiddenCitation = document.getElementById("hidden-citation-node");
-  
-  const paragraphInput = document.getElementById("paragraph-input");
-  const submitBtn = document.getElementById("submit-phrase-btn");
-  const lockFeedback = document.getElementById("lock-feedback");
-  // The new message that will progressively emerge
-  const NEW_MESSAGE = "2020s era flâneur. Welcome! Hint: Clue(1985) - 00:54:42. Lowercase, no punctuation";
-  
-  // Characters used to create the visual static/glitch effect
-  const GLITCH_CHARS = "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿŒœŠšŸžƒˆ˜–—‘’‚“”„†‡•…‰‹›€™";
-  const ENCRYPTED_QUOTE_HASH = "aea5e47704495a2ba6e9cc025167f2ee21af6e2f59d246f6331b4f4f72686abc";
-  
-  let isGlitched = false;
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const secretNextChapter = document.getElementById("secret-nextchapter");
+      const targetIntro = document.getElementById("target-intro");
+      const hiddenCitation = document.getElementById("hidden-citation-node");
 
-  secretFern.addEventListener("click", () => {
-    // Prevent multiple clicks from breaking the animation loop
-    if (isGlitched) return; 
-    isGlitched = true;
+      const paragraphInput = document.getElementById("paragraph-input");
+      const submitBtn = document.getElementById("submit-phrase-btn");
+      const lockFeedback = document.getElementById("lock-feedback");
 
-    // Apply a creepy deep red color but keep your portfolio's original font family
-    targetIntro.style.color = "#3a5f42"; 
-    hiddenCitation.style.display = "block";
+      // The message that will progressively emerge when the GIF is clicked
+      const NEW_MESSAGE = "The simulacrum is never that which hides the truth - it is truth that hides the fact that there is none. The simulacrum is true. - Baudrillard";
 
-    let iterations = 0;
-    const totalFrames = NEW_MESSAGE.length + 10; // Total cycles for the animation
+      // Characters used to create the visual static/glitch effect
+      const GLITCH_CHARS =
+        "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿŒœŠšŸžƒˆ˜–—‘’‚“”„†‡•…‰‹›€™";
 
-    const glitchInterval = setInterval(() => {
-      // Rebuild the string character by character
-      let currentFrameText = NEW_MESSAGE.split("")
-        .map((char, index) => {
-          // If the animation has progressed past this character's index, lock it in
-          if (index < iterations) {
-            return NEW_MESSAGE[index];
+      // New hash for "word1, word2, word3" (after normalization)
+      const ENCRYPTED_QUOTE_HASH =
+      "dc08da21d1c4a1ea3eb8df9e3e587673ba4dca54b4e5aecce97954ec710f76d8";
+
+      let isGlitched = false;
+
+      secretNextChapter.addEventListener("click", () => {
+        if (isGlitched) return;
+        isGlitched = true;
+
+        // Optional: change color to indicate activation
+        targetIntro.style.color = "#3a5f42";
+        hiddenCitation.style.display = "block";
+
+        let iterations = 0;
+        const totalFrames = NEW_MESSAGE.length + 10;
+
+        const glitchInterval = setInterval(() => {
+          let currentFrameText = NEW_MESSAGE.split("")
+            .map((char, index) => {
+              if (index < iterations) {
+                return NEW_MESSAGE[index];
+              }
+              if (char === " ") {
+                return " ";
+              }
+              return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+            })
+            .join("");
+
+          targetIntro.textContent = currentFrameText;
+
+          iterations += 0.5;
+
+          if (iterations >= totalFrames) {
+            clearInterval(glitchInterval);
+            targetIntro.textContent = NEW_MESSAGE;
           }
-          // If it's a space in the final message, leave a space to keep text boundaries stable
-          if (char === " ") {
-            return " ";
+        }, 30);
+      });
+
+      async function generateSHA256(text) {
+        const msgUint8 = new TextEncoder().encode(text);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray
+          .map(b => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      function normalizeInput(text) {
+        return text
+          .toLowerCase()
+          .normalize("NFKC")
+          .replace(/[^\p{L}\p{N}\s]/gu, "")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
+      submitBtn.addEventListener("click", async () => {
+        // 1. Check if the user is currently locked out
+        const lockoutTime = localStorage.getItem("puzzle_lockout");
+        if (lockoutTime && Date.now() < parseInt(lockoutTime)) {
+          const remainingSeconds = Math.ceil((parseInt(lockoutTime) - Date.now()) / 1000);
+          lockFeedback.style.color = "orange";
+          lockFeedback.textContent = `Security lockout active. Wait ${remainingSeconds}s.`;
+          return;
+        }
+
+        const sanitizedInput = normalizeInput(paragraphInput.value);
+        const userGuessHash = await generateSHA256(sanitizedInput);
+
+        if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
+          lockFeedback.style.color = "green";
+          lockFeedback.textContent = "Frequency matched. Connecting to localized signal...";
+          localStorage.setItem("chamber_unlocked", "true");
+          localStorage.removeItem("puzzle_attempts"); // Clear failures on success
+
+          setTimeout(() => {
+            window.location.href = "chamber-of-thoughts.html";
+          }, 1500);
+        } 
+        else {
+          // 2. Track failed attempts
+          let attempts = parseInt(localStorage.getItem("puzzle_attempts") || "0") + 1;
+          localStorage.setItem("puzzle_attempts", attempts);
+
+          lockFeedback.style.color = "red";
+
+          // 3. Trigger lockout if they fail more than 3 times
+          if (attempts >= 3) {
+            const cooldownMs = 30000; // 30-second penalty lockout
+            localStorage.setItem("puzzle_lockout", Date.now() + cooldownMs);
+            lockFeedback.textContent = "Static overload. Security lockout activated for 30s.";
+          } else {
+            lockFeedback.textContent = `Static detected. Phrase verification failed. (${3 - attempts} attempts left)`;
           }
-          // Otherwise, fill it with a completely random glitch symbol
-          return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-        })
-        .join("");
+        } // if else closed
+      }); // submitBtn.addEventListener closed
+    }); // document.addEventListener closed
+  </script>
 
-      targetIntro.textContent = currentFrameText;
-
-      // Increment iterations to slowly lock in more correct letters
-      iterations += 0.5; // Lower numbers (like 0.3) make it glitch slower; higher numbers make it faster
-
-      // Stop the loop once the entire new message is completely revealed
-      if (iterations >= totalFrames) {
-        clearInterval(glitchInterval);
-        targetIntro.textContent = NEW_MESSAGE; // Ensure no stray symbols are left
-      }
-    }, 30); // Runs every 30 milliseconds for a high-framerate glitched effect
-  });
-   async function generateSHA256(text) {
-    const msgUint8 = new TextEncoder().encode(text);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-    return hashArray
-      .map(b => b.toString(16).padStart(2, "0"))
-      .join("");
-  }
-
-  function normalizeInput(text) {
-    return text
-      .toLowerCase()
-      .normalize("NFKC")
-      .replace(/[^\p{L}\p{N}\s]/gu, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-   submitBtn.addEventListener("click", async () => {
-    // 1. Check if the user is currently locked out
-    const lockoutTime = localStorage.getItem("puzzle_lockout");
-    if (lockoutTime && Date.now() < parseInt(lockoutTime)) {
-      const remainingSeconds = Math.ceil((parseInt(lockoutTime) - Date.now()) / 1000);
-      lockFeedback.style.color = "orange";
-      lockFeedback.textContent = `Security lockout active. Wait ${remainingSeconds}s.`;
-      return;
-    }
-
-    const sanitizedInput = normalizeInput(paragraphInput.value);
-    const userGuessHash = await generateSHA256(sanitizedInput);
-
-    if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
-      lockFeedback.style.color = "green";
-      lockFeedback.textContent = "Frequency matched. Connecting to localized signal...";
-      localStorage.setItem("secretUnlocked", "true");
-      localStorage.removeItem("puzzle_attempts"); // Clear failures on success
-
-      setTimeout(() => {
-        window.location.href = "next-secret.html";
-      }, 1500);
-    } else {
-      // 2. Track failed attempts
-      let attempts = parseInt(localStorage.getItem("puzzle_attempts") || "0") + 1;
-      localStorage.setItem("puzzle_attempts", attempts);
-
-      lockFeedback.style.color = "red";
-
-      // 3. Trigger lockout if they fail more than 3 times
-      if (attempts >= 3) {
-        const cooldownMs = 30000; // 30-second penalty lockout
-        localStorage.setItem("puzzle_lockout", Date.now() + cooldownMs);
-        lockFeedback.textContent = "Static overload. Security lockout activated for 30s.";
-      } else {
-        lockFeedback.textContent = `Static detected. Phrase verification failed. (${3 - attempts} attempts left)`;
-      }
-    }
-  });
-
-}); // Closes DOMContentLoaded
 
 </script>
       <a class="button" href="mailto:alex.ellis@mail.utoronto.ca">
