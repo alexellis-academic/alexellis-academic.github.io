@@ -192,7 +192,7 @@
           .trim();
       }
 
-        submitBtn.addEventListener("click", async () => {
+    submitBtn.addEventListener("click", async () => {
     // 1. Check if the user is currently locked out
     const lockoutTime = localStorage.getItem("puzzle_lockout");
     if (lockoutTime && Date.now() < parseInt(lockoutTime)) {
@@ -231,8 +231,7 @@
         lockFeedback.textContent = `Static detected. Phrase verification failed. (${3 - attempts} attempts left)`;
       }
     }
-  })
-    });
+  });
   </script>
 
 </body>
