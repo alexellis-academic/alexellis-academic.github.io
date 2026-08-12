@@ -1,38 +1,31 @@
 <!DOCTYPE html>
+<!-- clearance_granted.html -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   <script>
-  // Run as soon as possible
-  const passed = localStorage.getItem("tripwire_passed");
-  if (passed !== "yes") {
-    window.location.replace("404.html");
-  } else {
-    localStorage.removeItem("tripwire_passed");
-  }
-</script>
+    // Run as soon as possible
+    const passed = localStorage.getItem("tripwire_passed");
+    if (passed !== "yes") {
+      window.location.replace("404.html");
+    } else {
+      localStorage.removeItem("tripwire_passed");
+    }
+  </script>
   <title>Secret</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  
+
   <script>
     (() => {
       const savedTheme = localStorage.getItem("theme");
-
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-
-      const theme =
-        savedTheme || (prefersDark ? "dark" : "light");
-
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = savedTheme || (prefersDark ? "dark" : "light");
       const root = document.documentElement;
-
       root.dataset.theme = theme;
       root.classList.add("theme-loading");
-      root.style.backgroundColor =
-        theme === "dark" ? "#121812" : "#fbfdfb";
+      root.style.backgroundColor = theme === "dark" ? "#121812" : "#fbfdfb";
     })();
   </script>
 
@@ -72,13 +65,155 @@
       <h2>I believe life is an open-world game. We currently have access to more knowledge than any other time in history.
       There is no better moment to be an <a href="https://poptropica.wiki/index.php/The_Poptropica_Blimp">explorer</a> than the present.</h2>
       <img src="images/greeb.jpg" alt="An image of a green street in an unknown city." style="width: 400px; height: auto;"><br>
-      <em>What will you do with what you know?</em>
 
-<!-- One more puzzle -->
-      
-      
+      <!-- Clickable GIF that triggers the puzzle -->
+      <img
+        id="secret-nextchapter"
+        src="images/nextchapter.gif"
+        alt="Next chapter"
+        style="cursor:pointer; width: 200px; margin-top: 1rem;"
+      >
+
+      <!-- This is the glitch target -->
+      <em id="target-intro">What will you do with what you know?</em>
+
+      <!-- Hidden puzzle block -->
+      <div class="hidden-puzzle">
+        <ul>
+          <li id="hidden-citation-node" style="display: none;">
+            <span class="source-hint">
+              <b>Verification Required:</b><br>
+              Input the missing transmission block to verify your clearance.<br><br>
+              <b>Hint 1:</b> Sevim Kandis et al.<br>
+              Acetaminophen (paracetamol) affects empathy-like behavior in rats: Dose-response relationship,<br>
+              Pharmacology Biochemistry and Behavior, Volume 175, 2018, Page 148, Paragraph 2.2.<br>
+              The 7th word in the sentence.<br>
+              Answer: word1<br><br>
+              <b>Hint 2:</b> What is the primary romanji spelling of this word: 海象<br>
+              Answer: word2<br><br>
+              <b>Hint 3:</b> .-- . .-.. -.-. --- -- . / - --- / .--- .- -- .-. --- -.-. -.- / -....- / -.. .- -- .. .- -. / -- .- .-. .-.. . -.-- / ---... / .-- .... .- - / .. ... / - .... . / .-.. .- ... - / .-- --- .-. -.. / .. -. / - .... .. ... / ...- . .-. ... . ..--.. / -.--. .---- ---... ..--- ----. -.--.-<br>
+              Answer: word3<br><br>
+              <b>Enter your answer like this:</b><br>
+              word1, word2, word3
+            </span>
+
+            <div>
+              <textarea
+                id="paragraph-input"
+                placeholder="Enter the exact text block here..."
+                rows="3"></textarea>
+              <br>
+              <button id="submit-phrase-btn" type="button">
+                Verify Coordinates
+              </button>
+
+              <p id="lock-feedback"></p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
     </header>
-    </main>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const secretNextChapter = document.getElementById("secret-nextchapter");
+      const targetIntro = document.getElementById("target-intro");
+      const hiddenCitation = document.getElementById("hidden-citation-node");
+
+      const paragraphInput = document.getElementById("paragraph-input");
+      const submitBtn = document.getElementById("submit-phrase-btn");
+      const lockFeedback = document.getElementById("lock-feedback");
+
+      // The message that will progressively emerge when the GIF is clicked
+      const NEW_MESSAGE = "The simulacrum is never that which hides the truth - it is truth that hides the fact that there is none. The simulacrum is true. - Baudrillard";
+
+      // Characters used to create the visual static/glitch effect
+      const GLITCH_CHARS =
+        "¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿŒœŠšŸžƒˆ˜–—‘’‚“”„†‡•…‰‹›€™";
+
+      // New hash for "word1, word2, word3" (after normalization)
+      const ENCRYPTED_QUOTE_HASH =
+        "1bae0578d25f018a7b6827bdd86cbce7666845f33b32a912fd335780c0a4ae78";
+
+      let isGlitched = false;
+
+      secretNextChapter.addEventListener("click", () => {
+        if (isGlitched) return;
+        isGlitched = true;
+
+        // Optional: change color to indicate activation
+        targetIntro.style.color = "#3a5f42";
+        hiddenCitation.style.display = "block";
+
+        let iterations = 0;
+        const totalFrames = NEW_MESSAGE.length + 10;
+
+        const glitchInterval = setInterval(() => {
+          let currentFrameText = NEW_MESSAGE.split("")
+            .map((char, index) => {
+              if (index < iterations) {
+                return NEW_MESSAGE[index];
+              }
+              if (char === " ") {
+                return " ";
+              }
+              return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
+            })
+            .join("");
+
+          targetIntro.textContent = currentFrameText;
+
+          iterations += 0.5;
+
+          if (iterations >= totalFrames) {
+            clearInterval(glitchInterval);
+            targetIntro.textContent = NEW_MESSAGE;
+          }
+        }, 30);
+      });
+
+      async function generateSHA256(text) {
+        const msgUint8 = new TextEncoder().encode(text);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray
+          .map(b => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      function normalizeInput(text) {
+        return text
+          .toLowerCase()
+          .normalize("NFKC")
+          .replace(/[^\p{L}\p{N}\s]/gu, "")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+
+      submitBtn.addEventListener("click", async () => {
+        const sanitizedInput = normalizeInput(paragraphInput.value);
+        const userGuessHash = await generateSHA256(sanitizedInput);
+
+        if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
+          lockFeedback.style.color = "green";
+          lockFeedback.textContent =
+            "Frequency matched. Connecting to localized signal...";
+
+          sessionStorage.setItem("secretUnlocked", "true");
+
+          setTimeout(() => {
+            window.location.href = "chamber-of-thoughts.html";
+          }, 1500);
+        } else {
+          lockFeedback.style.color = "red";
+          lockFeedback.textContent =
+            "Static detected. Phrase verification failed.";
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
