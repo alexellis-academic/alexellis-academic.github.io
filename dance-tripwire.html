@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    const unlocked = localStorage.getItem("secret_found");
+    if (unlocked !== "true") {
+      window.location.replace("404.html");
+    } else {
+      localStorage.removeItem("secret_found");
+    }
+    </script>
     <title>SECURITY WARNING</title>
     <style>
         body, html {
@@ -87,12 +95,6 @@
         </div>
     </div>
 <script>
-    const unlocked = localStorage.getItem("secret_found");
-    if (unlocked !== "true") {
-      window.location.replace("404.html");
-    } else {
-      localStorage.removeItem("secret_found");
-    }
     const HOME_URL = "index.html";
     const SUCCESS_URL = "clearance_granted.html";
 
