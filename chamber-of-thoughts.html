@@ -1,18 +1,24 @@
 <!DOCTYPE html>
+<!-- clearance_granted.html -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <script>
-    const unlocked = localStorage.getItem("chamber_unlocked");
-    if (unlocked !== "true") {
-      window.location.replace("404.html");
-    } else {
-      localStorage.removeItem("chamber_unlocked");
-    }
-  </script>
+  // Run as soon as possible
+  const unlocked = localStorage.getItem("chamber_unlocked");
+  if (unlocked !== "true") {
+    window.location.replace("404.html");
+  } else {
+    // Optionally consume the flag so it’s one-time use:
+    localStorage.removeItem("chamber_unlocked");
+  }
+</script>
+  <title>Chamber</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <title>Chamber of Thoughts</title>
-  <!-- rest of your head: styles, etc. -->
+  <!-- rest of the head: styles, etc. -->
 </head>
 <body>
   <!-- content -->
