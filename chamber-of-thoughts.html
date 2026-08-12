@@ -1,26 +1,73 @@
 <!DOCTYPE html>
-<!-- clearance_granted.html -->
+<!-- chamber-of-thoughts.html -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
+
   <script>
-  // Run as soon as possible
-  const unlocked = localStorage.getItem("chamber_unlocked");
-  if (unlocked !== "true") {
-    window.location.replace("404.html");
-  } else {
-    // Optionally consume the flag so it’s one-time use:
-    localStorage.removeItem("chamber_unlocked");
-  }
-</script>
-  <title>Chamber</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+    // Run as soon as possible
+    const unlocked = localStorage.getItem("chamber_unlocked");
+    if (unlocked !== "true") {
+      window.location.replace("404.html");
+    } else {
+      // Optionally consume the flag so it's one-time use:
+      localStorage.removeItem("chamber_unlocked");
+    }
+  </script>
+
   <title>Chamber of Thoughts</title>
-  <!-- rest of the head: styles, etc. -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <!-- Your existing theme + styles -->
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = savedTheme || (prefersDark ? "dark" : "light");
+      const root = document.documentElement;
+      root.dataset.theme = theme;
+      root.classList.add("theme-loading");
+      root.style.backgroundColor = theme === "dark" ? "#121812" : "#fbfdfb";
+    })();
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <!-- content -->
+  <nav class="top-nav" aria-label="Main navigation">
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+    </div>
+
+    <div class="nav-controls">
+      <div class="nav-dots" aria-hidden="true">
+        <span class="dot-light"></span>
+        <span class="dot-medium"></span>
+        <span class="dot-dark"></span>
+      </div>
+
+      <button
+        class="theme-toggle"
+        id="theme-toggle"
+        type="button"
+        aria-label="Switch to dark mode"
+        aria-pressed="false"
+      >
+        <span class="theme-icon" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="site">
+    <header class="page-header">
+      <p class="eyebrow">Access granted</p>
+      <h1>Chamber of Thoughts</h1>
+      <h2>You’ve proven you can follow the signal.</h2>
+      <p>What you do next is up to you.</p>
+    </header>
+  </main>
 </body>
 </html>
