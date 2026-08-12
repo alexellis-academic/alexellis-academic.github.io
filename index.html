@@ -182,24 +182,43 @@ document.addEventListener("DOMContentLoaded", () => {
       .trim();
   }
 
-  submitBtn.addEventListener("click", async () => {
+   submitBtn.addEventListener("click", async () => {
+    // 1. Check if the user is currently locked out
+    const lockoutTime = localStorage.getItem("puzzle_lockout");
+    if (lockoutTime && Date.now() < parseInt(lockoutTime)) {
+      const remainingSeconds = Math.ceil((parseInt(lockoutTime) - Date.now()) / 1000);
+      lockFeedback.style.color = "orange";
+      lockFeedback.textContent = `Security lockout active. Wait ${remainingSeconds}s.`;
+      return;
+    }
+
     const sanitizedInput = normalizeInput(paragraphInput.value);
     const userGuessHash = await generateSHA256(sanitizedInput);
 
     if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
       lockFeedback.style.color = "green";
-      lockFeedback.textContent =
-        "Frequency matched. Connecting to localized signal...";
-
+      lockFeedback.textContent = "Frequency matched. Connecting to localized signal...";
       sessionStorage.setItem("secretUnlocked", "true");
+      localStorage.removeItem("puzzle_attempts"); // Clear failures on success
 
       setTimeout(() => {
         window.location.href = "next-secret.html";
       }, 1500);
     } else {
+      // 2. Track failed attempts
+      let attempts = parseInt(localStorage.getItem("puzzle_attempts") || "0") + 1;
+      localStorage.setItem("puzzle_attempts", attempts);
+
       lockFeedback.style.color = "red";
-      lockFeedback.textContent =
-        "Static detected. Phrase verification failed.";
+
+      // 3. Trigger lockout if they fail more than 3 times
+      if (attempts >= 3) {
+        const cooldownMs = 30000; // 30-second penalty lockout
+        localStorage.setItem("puzzle_lockout", Date.now() + cooldownMs);
+        lockFeedback.textContent = "Static overload. Security lockout activated for 30s.";
+      } else {
+        lockFeedback.textContent = `Static detected. Phrase verification failed. (${3 - attempts} attempts left)`;
+      }
     }
   });
 
