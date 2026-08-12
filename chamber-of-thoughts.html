@@ -34,143 +34,165 @@
   </script>
 
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* Regal Occult & Deep Emerald Aesthetic */
+   <style>
+    /* Aristocratic Velvet & Emerald Invitation Theme */
     body {
-      background-color: #020b05; /* Deep, velvet emerald-black */
-      color: #7df9a6; /* Vibrant sage/mint glow */
+      background-color: #030d06; /* Deep, opaque velvet green */
+      color: #9ee6b3; /* Soft sage illumination */
       font-family: 'Georgia', 'Times New Roman', serif;
       margin: 0;
-      padding: 30px;
+      padding: 40px 20px;
       overflow-x: hidden;
-      /* Elegant, subtle damask-like texture lines */
-      background-image: linear-gradient(rgba(4, 28, 13, 0.4) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(4, 28, 13, 0.4) 1px, transparent 1px);
-      background-size: 20px 20px;
+      /* Very subtle regal watermark lines */
+      background-image: linear-gradient(rgba(10, 41, 20, 0.2) 1px, transparent 1px);
+      background-size: 100% 30px;
     }
 
-    /* Sovereign, shifting container */
+    /* Formal Invitation Card Wrapper */
     .site {
-      max-width: 750px;
-      margin: 50px auto;
-      padding: 50px;
-      border: 3px double #3fa869; /* Royal double-line border */
-      box-shadow: inset 0 0 30px rgba(125, 249, 166, 0.05), 0 0 40px rgba(0, 0, 0, 0.8);
-      background: rgba(2, 11, 5, 0.95);
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 60px 50px;
+      background: #041208; /* Slightly lighter inner card contrast */
+      /* Complex, elegant formal framing layout */
+      border: 1px solid #2b6e43;
+      outline: 4px double #1f5231;
+      outline-offset: -12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 0, 0, 0.6);
       position: relative;
+      text-align: center; /* Invitation typography is historically centered */
     }
 
-    /* Stately, drifting header element */
-    .page-header {
-      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    /* Weird interaction: The text shifts away slightly when hovered, making it hard to look at directly */
-    .site:hover .page-header {
-      transform: translateX(8px);
-    }
-
-    /* Elegant, breathing decree text */
+    /* Elegant Formal Decree Header */
     .eyebrow {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
-      letter-spacing: 0.7em;
-      color: #adffd2;
-      text-align: center;
-      margin-bottom: 25px;
-      animation: royalBreathe 4s ease-in-out infinite;
+      letter-spacing: 0.6em;
+      color: #4cd17a;
+      margin-bottom: 30px;
     }
 
-    /* Baroque / Gothic Styled Title */
+    /* Sovereign Gothic Header */
     h1 {
-      font-size: 3.5rem;
-      font-family: 'Cinzel', 'Georgia', serif;
+      font-size: 3rem;
+      font-family: 'Cinzel', 'Didot', 'Georgia', serif;
       font-weight: normal;
-      text-align: center;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #bffff0;
-      /* Ghostly, overlapping regal shadow */
-      text-shadow: 2px 2px 0px #134e2c, -1px -1px 4px rgba(125, 249, 166, 0.6);
+      letter-spacing: 3px;
+      color: #d1f7de;
       margin-top: 0;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
     }
 
     h2 {
       font-size: 1.1rem;
-      color: #52946c;
+      color: #5ea876;
       font-style: italic;
       font-weight: normal;
-      text-align: center;
       letter-spacing: 1px;
+      margin-top: 0;
       margin-bottom: 40px;
     }
 
+    /* Custom Wax Seal Divider */
+    .seal-divider {
+      width: 12px;
+      height: 12px;
+      background-color: #8c2337; /* Deep oxblood wax color */
+      border-radius: 50%;
+      margin: 25px auto;
+      box-shadow: 0 0 6px rgba(140, 35, 55, 0.6);
+      position: relative;
+    }
+    .seal-divider::before, .seal-divider::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #2b6e43);
+    }
+    .seal-divider::before { right: 20px; background: linear-gradient(to left, #2b6e43, transparent); }
+    .seal-divider::after { left: 20px; }
+
     p {
-      line-height: 1.8;
-      color: #9effc1;
-      font-size: 1.1rem;
+      line-height: 1.9;
+      color: #aae0bc;
+      font-size: 1.05rem;
+      margin-bottom: 25px;
     }
 
-    /* Aristocratic custom list marker */
+    /* Aristocratic List Setup */
     .email-prompts {
-      margin-top: 25px;
-      margin-bottom: 35px;
-      padding-left: 25px;
-      list-style-type: "❖ "; /* Royal heraldry diamond symbol */
+      margin: 30px auto;
+      padding: 0;
+      list-style-type: none; /* Removed bullet points entirely for formal layout */
+      max-width: 550px;
     }
     
     .email-prompts li {
-      margin-bottom: 12px;
-      color: #b2ffd0;
+      margin-bottom: 16px;
+      color: #c2eed0;
+      font-size: 1rem;
+      line-height: 1.6;
+      /* Subtle formal ornament separating listed prompts */
+      border-bottom: 1px dashed rgba(43, 110, 67, 0.2);
+      padding-bottom: 12px;
+    }
+    .email-prompts li:last-child {
+      border-bottom: none;
     }
 
-    /* Elegant frame overlay on iframe */
+    /* Deep Velvet Styled Iframe Overlay */
     iframe {
-      border: 1px solid #3fa869 !important;
-      background: #010603;
-      filter: sepia(40%) hue-rotate(80deg) contrast(110%); /* Tinting iframe content emerald */
+      border: 1px solid #1f5231 !important;
+      background: #010602;
+      filter: sepia(35%) hue-rotate(90deg) contrast(105%) brightness(90%);
       margin: 40px 0;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
     }
 
-    /* Velvet / Silk highlight color */
+    /* Silk interior highlighting */
     ::selection {
-      background: #175432;
-      color: #bffff0;
+      background: #174024;
+      color: #d1f7de;
     }
 
-    /* Cryptic royal links */
+    /* Script Links */
     a {
-      color: #bffff0;
+      color: #d1f7de;
       text-decoration: none;
-      border-bottom: 1px solid #3fa869;
-      transition: all 0.3s ease;
+      border-bottom: 1px solid #2b6e43;
+      transition: all 0.2s ease;
+      font-style: italic;
     }
 
     a:hover {
-      color: #7df9a6;
-      border-bottom: 1px solid #7df9a6;
-      text-shadow: 0 0 8px rgba(125, 249, 166, 0.8);
-      cursor: cell; /* Changes cursor to a precise targeting crosshair */
+      color: #4cd17a;
+      border-bottom: 1px solid #4cd17a;
+      text-shadow: 0 0 5px rgba(76, 209, 122, 0.4);
+      cursor: cell;
     }
 
-    /* Hidden decree at the absolute foot of the court */
+    .signature {
+      font-family: 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+      margin-top: 40px;
+      color: #d1f7de;
+    }
+
+    /* Hidden decree hidden perfectly in the margins */
     .hidden-transmission {
-      color: #020b05; /* Perfectly matches background */
-      font-size: 0.8rem;
+      color: #041208; /* Matches the inner card background perfectly */
+      font-size: 0.75rem;
       display: block;
-      text-align: center;
       margin-top: 50px;
       user-select: all;
       font-family: monospace;
-      letter-spacing: 1px;
-    }
-
-    /* Softly swelling glow animation */
-    @keyframes royalBreathe {
-      0%, 100% { opacity: 0.4; text-shadow: 0 0 2px rgba(125,249,166,0); }
-      50% { opacity: 1; text-shadow: 0 0 10px rgba(125, 249, 166, 0.5); }
+      letter-spacing: 2px;
     }
   </style>
 </head>
