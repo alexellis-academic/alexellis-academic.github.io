@@ -19,13 +19,13 @@
 
   <style>
     :root {
-  --bg-color: #020814;      /* Deep midnight blue */
-  --color-1: #0b355d;       /* Dark ocean blue */
-  --color-2: #0f4c81;       /* Medium Atlantic blue */
-  --color-3: #0d6a7a;       /* Teal current */
-  --color-4: #162447;       /* Deeper shadow blue */
+  --bg-color: #050713;      /* Very deep navy backdrop */
+  --ocean-deep: #19213d;    /* Core deep blue you mentioned */
+  --ocean-mid:  #24315a;    /* Slightly lighter, more saturated */
+  --ocean-light:#314581;    /* Soft highlight blue */
 }
 
+/* Base layout (same as before) */
 html, body {
   margin: 0;
   min-height: 100%;
@@ -39,117 +39,119 @@ body {
   position: relative;
 }
 
-/* Full-screen liquid ocean layer */
+/* Full-screen, softer, more unified ocean */
 .liquid-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  /* Softer blend for a watery feel */
-  filter: blur(55px) contrast(20) saturate(130%);
-  background: radial-gradient(circle at 20% 20%, #06152d 0, #020814 45%),
-              radial-gradient(circle at 80% 80%, #031021 0, #020814 50%);
+  /* More blur, less contrast for smooth gradients */
+  filter: blur(70px) contrast(15) saturate(140%);
+  /* Subtle base gradient so empty regions aren’t flat black */
+  background:
+    radial-gradient(circle at 20% 15%, #10172b 0, transparent 45%),
+    radial-gradient(circle at 80% 85%, #0d1224 0, transparent 50%),
+    radial-gradient(circle at 50% 50%, #050713 0, #050713 60%);
 }
 
-/* All blobs: large, soft shapes */
 .blob {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.85;
+  opacity: 0.95;
+  /* Keep blend smooth; screen works well over dark bg with close hues */
   mix-blend-mode: screen;
   will-change: transform, border-radius;
 }
 
-/* Big, slow “currents” */
+/* Large, overlapping slow blobs in a narrow blue band */
 .blob-1 {
-  width: 700px;
-  height: 700px;
-  left: -10%;
-  top: -10%;
-  background: var(--color-1);
-  animation: drift1 32s ease-in-out infinite alternate,
-             morph 16s ease-in-out infinite;
-}
-
-.blob-2 {
-  width: 900px;
-  height: 900px;
-  right: -15%;
-  bottom: -20%;
-  background: var(--color-2);
-  animation: drift2 40s ease-in-out infinite alternate,
-             morph 20s ease-in-out infinite;
-}
-
-.blob-3 {
-  width: 650px;
-  height: 650px;
-  left: 20%;
-  top: 40%;
-  background: var(--color-3);
-  animation: drift3 36s ease-in-out infinite alternate,
-             morph 18s ease-in-out infinite;
-}
-
-/* Optional fourth blob for more depth */
-.blob-4 {
-  width: 800px;
-  height: 800px;
-  left: 50%;
-  top: -25%;
-  background: var(--color-4);
-  animation: drift4 48s ease-in-out infinite alternate,
+  width: 820px;
+  height: 820px;
+  left: -12%;
+  top: -18%;
+  background: var(--ocean-deep);
+  animation: drift1 38s ease-in-out infinite alternate,
              morph 22s ease-in-out infinite;
 }
 
+.blob-2 {
+  width: 980px;
+  height: 980px;
+  right: -18%;
+  bottom: -22%;
+  background: var(--ocean-mid);
+  animation: drift2 46s ease-in-out infinite alternate,
+             morph 26s ease-in-out infinite;
+}
+
+.blob-3 {
+  width: 780px;
+  height: 780px;
+  left: 20%;
+  top: 35%;
+  background: var(--ocean-light);
+  animation: drift3 42s ease-in-out infinite alternate,
+             morph 24s ease-in-out infinite;
+}
+
+.blob-4 {
+  width: 900px;
+  height: 900px;
+  left: 55%;
+  top: -28%;
+  background: var(--ocean-mid);
+  animation: drift4 52s ease-in-out infinite alternate,
+             morph 28s ease-in-out infinite;
+}
+
+/* Gentle, slow drifts – think deep water currents */
 @keyframes drift1 {
   from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(140px, 120px) scale(1.1); }
+  to   { transform: translate(120px, 110px) scale(1.06); }
 }
 
 @keyframes drift2 {
-  from { transform: translate(0, 0) scale(1.05); }
-  to   { transform: translate(-160px, -140px) scale(1.15); }
+  from { transform: translate(0, 0) scale(1.03); }
+  to   { transform: translate(-150px, -130px) scale(1.08); }
 }
 
 @keyframes drift3 {
   from { transform: translate(0, 0) scale(1); }
-  to   { transform: translate(120px, -100px) scale(1.12); }
+  to   { transform: translate(110px, -90px) scale(1.07); }
 }
 
 @keyframes drift4 {
-  from { transform: translate(0, 0) scale(1.05); }
-  to   { transform: translate(-120px, 120px) scale(1.18); }
+  from { transform: translate(0, 0) scale(1.02); }
+  to   { transform: translate(-120px, 120px) scale(1.1); }
 }
 
-/* Gentle, slow morphing for an underwater feel */
+/* Smoother, less extreme morphing */
 @keyframes morph {
   0%, 100% {
-    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    border-radius: 48% 52% 55% 45% / 50% 45% 55% 50%;
   }
   33% {
-    border-radius: 60% 40% 52% 48% / 50% 60% 40% 50%;
+    border-radius: 58% 42% 50% 50% / 45% 55% 45% 55%;
   }
   66% {
-    border-radius: 35% 65% 40% 60% / 60% 35% 65% 40%;
+    border-radius: 42% 58% 48% 52% / 55% 45% 60% 40%;
   }
 }
 
-/* Your content container stays above the ocean */
+/* Content container stays as before, but you may want it slightly bluer */
 .site {
   position: relative;
   z-index: 1;
   max-width: 700px;
   margin: 40px auto;
   padding: 50px 60px;
-  background: rgba(5, 10, 16, 0.9); /* Slightly more blue to match ocean */
+  background: rgba(7, 11, 22, 0.92);
   backdrop-filter: blur(6px);
-  border: 1px solid #1a252e;
-  border-left: 4px solid #3f647b;
+  border: 1px solid #1a2435;
+  border-left: 4px solid #3b4c7a;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9);
 }
-
     .eyebrow { color: #9c7b56; letter-spacing: 0.3em; text-transform: uppercase; }
     h1 { font-family: Georgia, serif; font-size: 2.2rem; color: #e6ded6; font-weight: normal; }
     h2 { font-size: 0.95rem; color: #7a857e; font-style: italic; font-weight: normal; }
