@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- chamber-of-thoughts.html -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,12 +6,10 @@
   <meta name="color-scheme" content="light dark">
 
   <script>
-    // Run as soon as possible
     const unlocked = localStorage.getItem("chamber_unlocked");
     if (unlocked !== "true") {
       window.location.replace("404.html");
     } else {
-      // Optionally consume the flag so it's one-time use:
       localStorage.removeItem("chamber_unlocked");
     }
   </script>
@@ -20,244 +17,135 @@
   <title>Chamber of Thoughts</title>
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <!-- Your existing theme + styles -->
-  <script>
-    (() => {
-      const savedTheme = localStorage.getItem("theme");
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const theme = savedTheme || (prefersDark ? "dark" : "light");
-      const root = document.documentElement;
-      root.dataset.theme = theme;
-      root.classList.add("theme-loading");
-      root.style.backgroundColor = theme === "dark" ? "#121812" : "#fbfdfb";
-    })();
-  </script>
-
-  <link rel="stylesheet" href="style.css">
   <style>
-    /* Dark Academia / Gooey Fluid Variables */
     :root {
-      --bg-color: #0c0f0d;     /* Deep ink black */
-      --color-1: #211c16;      /* Diluted walnut stain */
-      --color-2: #4f3f2e;      /* Aged sepia */
-      --color-3: #1a241e;      /* Oxford moss green */
+      --bg-color: #0c0f0d;
+      --color-1: #7a5a3a;
+      --color-2: #4f6b52;
+      --color-3: #2f3f34;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg-color);
+      overflow-x: hidden;
     }
 
     body {
-      background-color: var(--bg-color);
-      color: #d1c7bd; /* Aged parchment text */
-      font-family: 'Courier New', Courier, Courier Prime, monospace;
-      margin: 0;
-      padding: 40px 20px;
+      color: #d1c7bd;
+      font-family: Courier, "Courier New", monospace;
+      position: relative;
     }
 
-    /* ========================================================
-       THE SECRET SAUCE: GOOEY LIQUID BACKGROUND SYSTEM
-       ======================================================== */
     .liquid-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      background: var(--bg-color);
+      inset: 0;
+      z-index: 0;
       overflow: hidden;
-      
-      /* Merges the shifting alpha channels together into a thick liquid */
-      filter: blur(50px) contrast(35);
+      pointer-events: none;
+      filter: blur(45px) contrast(18);
     }
 
-    /* Base styling for all moving academic ink blobs */
     .blob {
       position: absolute;
+      border-radius: 50%;
+      opacity: 0.9;
       mix-blend-mode: screen;
-      opacity: 0.7;
+      will-change: transform, border-radius;
     }
 
-    /* Individual blob behaviors, sizes, and colors */
     .blob-1 {
-      width: 600px;
-      height: 600px;
-      background: #ff6600; 
-      top: -10%;
-      left: -10%;
-      animation: liquid-move 25s infinite alternate, liquid-morph 9s infinite ease-in-out;
+      width: 420px;
+      height: 420px;
+      left: 5%;
+      top: 10%;
+      background: var(--color-1);
+      animation: drift1 18s ease-in-out infinite alternate, morph 8s ease-in-out infinite;
     }
 
     .blob-2 {
-      width: 700px;
-      height: 700px;
-      background: var(--color-3);
-      bottom: -15%;
-      right: -5%;
-      animation: liquid-move-reverse 30s infinite alternate, liquid-morph 14s infinite ease-in-out;
+      width: 520px;
+      height: 520px;
+      right: 2%;
+      bottom: 8%;
+      background: var(--color-2);
+      animation: drift2 24s ease-in-out infinite alternate, morph 11s ease-in-out infinite;
     }
 
     .blob-3 {
-      width: 500px;
-      height: 500px;
-      background: var(--color-1);
-      top: 35%;
-      left: 25%;
-      animation: liquid-move 18s infinite alternate, liquid-morph 11s infinite ease-in-out;
+      width: 360px;
+      height: 360px;
+      left: 38%;
+      top: 36%;
+      background: var(--color-3);
+      animation: drift3 20s ease-in-out infinite alternate, morph 9s ease-in-out infinite;
     }
 
-    /* Keyframes for morphing the shape contours organically */
-    @keyframes liquid-morph {
-      0%, 100% {
-        border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-      }
-      33% {
-        border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%;
-      }
-      66% {
-        border-radius: 28% 72% 37% 63% / 37% 53% 47% 63%;
-      }
+    @keyframes drift1 {
+      from { transform: translate(0, 0) rotate(0deg); }
+      to { transform: translate(120px, 90px) rotate(180deg); }
     }
 
-    /* Keyframes for drifting the liquid around the screen */
-    @keyframes liquid-move {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      100% { transform: translate(180px, 90px) rotate(360deg); }
+    @keyframes drift2 {
+      from { transform: translate(0, 0) rotate(0deg); }
+      to { transform: translate(-140px, -100px) rotate(-180deg); }
     }
 
-    @keyframes liquid-move-reverse {
-      0% { transform: translate(0, 0) rotate(360deg); }
-      100% { transform: translate(-120px, -170px) rotate(0deg); }
+    @keyframes drift3 {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(80px, -70px) scale(1.12); }
     }
 
-    /* ========================================================
-       PORTFOLIO INNER DOSSIER CONTAINER
-       ======================================================== */
+    @keyframes morph {
+      0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
+      33% { border-radius: 62% 38% 46% 54% / 35% 55% 45% 65%; }
+      66% { border-radius: 36% 64% 38% 62% / 60% 30% 70% 40%; }
+    }
+
     .site {
+      position: relative;
+      z-index: 1;
       max-width: 700px;
       margin: 40px auto;
       padding: 50px 60px;
-      /* Semi-transparent so the liquid crawls elegantly under your notes */
-      background: rgba(17, 22, 19, 0.85); 
-      backdrop-filter: blur(5px); /* Softly diffuses the fluid behind it */
-      border: 1px solid #2e3631; 
-      border-left: 4px solid #63503c; /* Folio notebook spine */
+      background: rgba(17, 22, 19, 0.85);
+      backdrop-filter: blur(5px);
+      border: 1px solid #2e3631;
+      border-left: 4px solid #63503c;
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9);
-      position: relative;
     }
 
-    /* Card Catalog Metadata Stamp */
-    .eyebrow {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      color: #9c7b56; 
-      margin-bottom: 25px;
-      border-bottom: 1px dashed rgba(156, 123, 86, 0.3);
-      padding-bottom: 5px;
-      display: inline-block;
-    }
+    .eyebrow { color: #9c7b56; letter-spacing: 0.3em; text-transform: uppercase; }
+    h1 { font-family: Georgia, serif; font-size: 2.2rem; color: #e6ded6; font-weight: normal; }
+    h2 { font-size: 0.95rem; color: #7a857e; font-style: italic; font-weight: normal; }
+    p { line-height: 1.8; color: #c4bbb0; }
 
-    /* Formal manuscript layout text styling */
-    h1 {
-      font-size: 2.2rem;
-      font-family: 'Georgia', 'Times New Roman', serif;
-      font-weight: normal;
-      color: #e6ded6;
-      margin-top: 0;
-      margin-bottom: 5px;
-      letter-spacing: 0.5px;
-    }
-
-    h2 {
-      font-size: 0.95rem;
-      color: #7a857e;
-      font-style: italic;
-      font-weight: normal;
-      margin-top: 0;
-      margin-bottom: 35px;
-    }
-
-    p {
-      line-height: 1.8;
-      color: #c4bbb0;
-      font-size: 0.95rem;
-      margin-bottom: 25px;
-    }
-
-    /* Field Note Bullet Formatting */
-    .email-prompts {
-      margin: 25px 0 35px 0;
-      padding-left: 20px;
-      list-style-type: none;
-    }
-    
-    .email-prompts li {
-      margin-bottom: 14px;
-      color: #d1c7bd;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      position: relative;
-    }
-
-    .email-prompts li::before {
-      content: "•";
-      color: #9c7b56;
-      position: absolute;
-      left: -20px;
-    }
-
-    /* Microfilm frame window overlay for the iframe */
     iframe {
       border: 1px solid #2e3631 !important;
       background: #080a09;
-      filter: sepia(70%) contrast(120%) brightness(85%); /* Fits the amber/sepia palette */
+      filter: sepia(70%) contrast(120%) brightness(85%);
       margin: 35px 0;
       box-shadow: inset 0 0 20px #000;
-    }
-
-    /* Dried walnut ink highlighting */
-    ::selection {
-      background: #3d3328;
-      color: #f7f1eb;
+      width: 100%;
+      height: 500px;
     }
 
     a {
       color: #e6ded6;
       text-decoration: none;
       border-bottom: 1px solid #9c7b56;
-      transition: all 0.2s ease;
       font-weight: bold;
     }
 
     a:hover {
       color: #9c7b56;
-      border-bottom: 1px dashed #e6ded6;
-      background-color: rgba(156, 123, 86, 0.1);
-      cursor: help;
-    }
-
-    .signature {
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      margin-top: 40px;
-      color: #e6ded6;
-    }
-
-    /* Hidden marginalia note */
-    .hidden-transmission {
-      color: rgba(17, 22, 19, 0.1); 
-      font-size: 0.7rem;
-      display: block;
-      margin-top: 50px;
-      user-select: all;
-      font-family: monospace;
-      letter-spacing: 1px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Gooey metaball layer injected at the very root of the canvas -->
-  <div class="liquid-bg">
+  <div class="liquid-bg" aria-hidden="true">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
@@ -269,16 +157,19 @@
       <h1>Chamber of Thoughts</h1>
       <h2>congrats. u've arrived at my chamber of thoughts</h2>
       <p>read unresolved threads im currently ruminating on here</p>
+
+      <iframe src="https://www.are.na/alex-ellis/unresolved-threads/embed" title="Unresolved Threads"></iframe>
+
+      <p>
+        you also get carte blanche to email me as informally or hyper-formally as you'd like.
+        just make the subject line "tripwire: [your actual subject]" so I know you found this page & you're not a bot.
+      </p>
+      <p>if you've met me before, tell me where. i've met a LOT of people.</p>
       
-      <iframe src="https://www.are.na/alex-ellis/unresolved-threads/embed" width="100%" height="500" style="border: none;" title="Unresolved Threads"></iframe>
+      <p>i'm always thinking. I welcome people who want to think alongside me.</p>
       
-      <p>you also get carte blanche to email me as informally or hyper-formally as you'd like.
-      just make the subject line "tripwire: [your actual subject]" so I know you found this page & you're not a bot. 
-      if you've met me before, tell me where. i've met a LOT of people.
-      <br><br>
-      i'm always thinking. I welcome those who want to think alongside me.
-      <br><br>
-      non-exhaustive list of prompt ideas for emails:
+      <p style="font-size: 0.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #9c7b56; margin-top: 35px; margin-bottom: 15px;">
+        [non-exhaustive list of prompt ideas for emails:]
       </p>
       
       <ul class="email-prompts">
@@ -292,16 +183,9 @@
       </ul>
 
       <p>
-        <a href="https://jisho.org/search/4649">４６４９ね</a>
-        <br><br>
+        <a href="https://jisho.org/search/4649">４６４９ね</a><br><br>
         - Alex
       </p>
-      
-      <a href="mailto:alex.ellis@mail.utoronto.ca">
-        alex(dot)ellis@mail(dot)utoronto.ca
-      </a>
-    </p>
-      
     </header>
   </main>
 </body>
