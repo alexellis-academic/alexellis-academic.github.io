@@ -196,6 +196,12 @@
         const sanitizedInput = normalizeInput(paragraphInput.value);
         const userGuessHash = await generateSHA256(sanitizedInput);
 
+      // DEBUG: log what the system is hashing and the resulting hash
+      console.log("Raw input:", paragraphInput.value);
+      console.log("Normalized input:", sanitizedInput);
+      console.log("Computed SHA-256 hash:", userGuessHash);
+      console.log("Expected hash:", ENCRYPTED_QUOTE_HASH);
+
         if (userGuessHash === ENCRYPTED_QUOTE_HASH) {
           lockFeedback.style.color = "green";
           lockFeedback.textContent =
