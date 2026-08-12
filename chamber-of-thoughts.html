@@ -34,7 +34,7 @@
   </script>
 
   <link rel="stylesheet" href="style.css">
-   <style>
+  <style>
     /* Dark Academia / Research Archive Aesthetic */
     body {
       background-color: #0c0f0d; /* Dark obsidian ink */
@@ -53,11 +53,31 @@
       max-width: 700px;
       margin: 40px auto;
       padding: 50px 60px;
-      background: #111613; /* Slightly warmer dark paper tone */
-      border: 1px solid #2e3631; /* Replicates a worn folio edge */
+      background: #111613; /* Warm dark paper tone */
+      border: 1px solid #2e3631; /* Worn folio edge */
       border-left: 4px solid #63503c; /* Binding spine indicator */
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
       position: relative;
+      z-index: 1;
+    }
+
+    /* UPDATED: Liquid Moire Animation Layer */
+    .site::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+      opacity: 0.15; /* Visibility of the fluid movement */
+      background: 
+        radial-gradient(circle at 50% 50%, transparent 40%, #111613 70%),
+        repeating-radial-gradient(circle at 10% 20%, transparent 0, transparent 15px, rgba(209, 199, 189, 0.4) 20px, transparent 25px),
+        repeating-radial-gradient(circle at 90% 80%, transparent 0, transparent 20px, rgba(209, 199, 189, 0.3) 26px, transparent 32px);
+      background-blend-mode: multiply;
+      background-size: 100% 100%, 100% 100%, 100% 100%;
+      pointer-events: none;
+      
+      /* Runs the continuous liquid distortion loop */
+      animation: liquidShift 20s ease-in-out infinite alternate;
     }
 
     /* Card Catalog Metadata Stamp */
@@ -75,7 +95,7 @@
     /* Title formatted like a formal thesis manuscript */
     h1 {
       font-size: 2.2rem;
-      font-family: 'Georgia', 'Times New Roman', serif; /* Shift to formal text for title */
+      font-family: 'Georgia', 'Times New Roman', serif;
       font-weight: normal;
       color: #e6ded6;
       margin-top: 0;
@@ -114,7 +134,7 @@
       position: relative;
     }
 
-    /* Adds a customized academic citation bracket "[x]" before list items */
+    /* Customized academic bullet points */
     .email-prompts li::before {
       content: "•";
       color: #9c7b56;
@@ -172,6 +192,22 @@
       font-family: monospace;
       letter-spacing: 1px;
     }
+
+    /* NEW: Continuous smooth liquid ripple distortion */
+    @keyframes liquidShift {
+      0% {
+        background-position: 0% 0%, 0% 0%, 0% 0%;
+        background-size: 100% 100%, 100% 100%, 100% 100%;
+      }
+      50% {
+        background-position: 5px -10px, -20px 15px, 15px -5px;
+        background-size: 100% 100%, 105% 105%, 95% 98%;
+      }
+      100% {
+        background-position: -5px 15px, 25px -20px, -10px 10px;
+        background-size: 100% 100%, 98% 95%, 103% 105%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -185,7 +221,7 @@
       
       <iframe src="https://www.are.na/alex-ellis/unresolved-threads/embed" width="100%" height="500" style="border: none;" title="Unresolved Threads"></iframe>
       
-      <p>you also get carte blanche to email me as informally or hyper-formally as you'd like. <br>
+      <p>you also get carte blanche to email me as informally or hyper-formally as you'd like.
       just make the subject line "tripwire: [your actual subject]" so I know you found this page & you're not a bot. 
       if you've met me before, tell me where. i've met a LOT of people.
       <br><br>
