@@ -1,1 +1,20 @@
-<!-- :) --> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    const unlocked = localStorage.getItem("chamber_unlocked");
+    if (unlocked !== "true") {
+      window.location.replace("404.html");
+    } else {
+      localStorage.removeItem("chamber_unlocked");
+    }
+  </script>
+  <title>Chamber of Thoughts</title>
+  <!-- rest of your head: styles, etc. -->
+</head>
+<body>
+  <!-- content -->
+</body>
+</html>
