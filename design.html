@@ -23,11 +23,6 @@
 
       root.dataset.theme = theme;
       root.classList.add("theme-loading");
-
-      /*
-        Apply a background immediately, before CSS finishes loading.
-        This is especially helpful on mobile browsers.
-      */
       root.style.backgroundColor =
         theme === "dark" ? "#121812" : "#fbfdfb";
     })();
@@ -45,6 +40,7 @@
       <a href="writing.html">Writing</a>
       <a href="design.html">Design</a>
       <a href="media.html">Media</a>
+      <a href="focus.html" class="active">Focus Desk</a>
       <a href="contact.html">Contact</a>
     </div>
 
